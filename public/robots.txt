@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /products
+Disallow: /*?*order=   # ⚡ Prevents Google from wasting time crawling your sort chevrons over and over
+
+Sitemap: https://shomicore.es
