@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -96,9 +97,21 @@ export default function AdminSidebar() {
 
         {/* Logout Control Trigger Block */}
         <div className="px-8 mt-auto pt-6 border-t border-white/10">
-          <span className="font-label-caps text-[10px] tracking-[0.2em] text-white/30 hover:text-red-400 cursor-pointer transition-colors duration-300 block uppercase font-medium">
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await fetch('/api/admin/logout', { method: 'POST' });
+              } catch (error) {
+                console.error('Logout failed', error);
+              } finally {
+                router.push('/');
+              }
+            }}
+            className="font-label-caps text-[10px] tracking-[0.2em] text-white/30 hover:text-red-400 cursor-pointer transition-colors duration-300 block uppercase font-medium bg-transparent border-none p-0"
+          >
             LOGOUT BACKEND
-          </span>
+          </button>
         </div>
       </aside>
     </>

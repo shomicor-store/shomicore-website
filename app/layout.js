@@ -1,20 +1,8 @@
 // app/layout.js
-import { EB_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
-const ebGaramond = EB_Garamond({
-  variable: "--font-eb-garamond",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata = {
   metadataBase: new URL('https://shomicore.es'),
@@ -49,7 +37,7 @@ export default function RootLayout({ children }) {
     // ✅ Formatted correctly with Spain's language code and font variable setups
     <html
       lang="es" 
-      className={`${ebGaramond.variable} ${inter.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="h-full bg-white text-slate-900">
         {children}

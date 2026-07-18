@@ -1,5 +1,8 @@
 import sql from '@/lib/db';
 import { NextResponse } from 'next/server';
+import { applySecurityHeaders, createRateLimitResponse, isAdminAuthenticated, isRateLimited } from '@/lib/security';
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'shomicore123';
 
 function generateSlug(text) {
   return text.toString().toLowerCase().trim()
@@ -11,6 +14,19 @@ function generateSlug(text) {
 // 1. PUT: Clean execution update mapper matching frontend JSON keys safely
 export async function PUT(request, { params }) {
   try {
+    if (isRateLimited(request, { prefix: 'products-put', limit: 30, windowMs: 60_000 })) {
+      return createRateLimitResponse();
+    }
+
+    const authHeader = request.headers.get('authorization') || '';
+    const token = authHeader.replace('Bearer ', '').trim();
+
+    if (!token || token !== ADMIN_PASSWORD) {
+      return applySecurityHeaders(
+        NextResponse.json({ success: false, message: 'Unauthorized admin request.' }, { status: 401 })
+      );
+    }
+
     const resolvedParams = await params;
     const { id } = resolvedParams;
     
@@ -60,20 +76,33 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ success: false, message: "No SKU row identified matching this ID parameter." }, { status: 404 });
     }
 
-    return NextResponse.json({ 
+    return applySecurityHeaders(NextResponse.json({ 
       success: true, 
       message: "Product specifications updated and re-indexed smoothly!", 
       data: updatedProduct 
-    }, { status: 200 });
+    }, { status: 200 }));
 
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return applySecurityHeaders(NextResponse.json({ success: false, error: error.message }, { status: 500 }));
   }
 }
 
 // 2. DELETE: Clean execution deletion handler
 export async function DELETE(request, { params }) {
   try {
+    if (isRateLimited(request, { prefix: 'products-delete', limit: 20, windowMs: 60_000 })) {
+      return createRateLimitResponse();
+    }
+
+    const authHeader = request.headers.get('authorization') || '';
+    const token = authHeader.replace('Bearer ', '').trim();
+
+    if (!token || token !== ADMIN_PASSWORD) {
+      return applySecurityHeaders(
+        NextResponse.json({ success: false, message: 'Unauthorized admin request.' }, { status: 401 })
+      );
+    }
+
     const resolvedParams = await params;
     const { id } = resolvedParams;
 
@@ -87,12 +116,12 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ success: false, message: "Product record not found in dataset" }, { status: 404 });
     }
 
-    return NextResponse.json({ 
+    return applySecurityHeaders(NextResponse.json({ 
       success: true, 
       message: `Product "${deletedProduct.name}" successfully deleted from archive.` 
-    }, { status: 200 });
+    }, { status: 200 }));
 
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    return applySecurityHeaders(NextResponse.json({ success: false, error: error.message }, { status: 500 }));
   }
 }

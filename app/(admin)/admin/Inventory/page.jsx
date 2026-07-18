@@ -65,11 +65,15 @@ useEffect(() => {
   const fetchInventory = async () => {
     setLoading(true);
     try {
-      const prodRes = await fetch('/api/products');
+      const prodRes = await fetch('/api/products', {
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` }
+      });
       const prodData = await prodRes.json();
       if (prodData.success) setProducts(prodData.data);
 
-      const subRes = await fetch('/api/sub-categories');
+      const subRes = await fetch('/api/sub-categories', {
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` }
+      });
       const subData = await subRes.json();
       if (subData.success) setSubCategories(subData.data);
     } catch (err) {
@@ -155,7 +159,10 @@ const payload = {
 
     const res = await fetch(url, {
       method: method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}`
+      },
       body: JSON.stringify(payload)
     });
     const data = await res.json();
@@ -175,7 +182,10 @@ const payload = {
   const handleDeleteProduct = async (id) => {
     if (!confirm("Are you sure you want to permanently Delete this Product?")) return;
     try {
-      const res = await fetch(`/api/products/id/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/products/id/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` }
+      });
       const data = await res.json();
       if (data.success) {
         alert(data.message);
@@ -194,7 +204,10 @@ const handleCreateSubCategory = async (e) => {
   try {
     const res = await fetch('/api/sub-categories', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}`
+      },
       body: JSON.stringify({
         parentCategory: formData.parentCategory,
         name: newSubData.name.trim().toUpperCase(),
@@ -207,7 +220,9 @@ const handleCreateSubCategory = async (e) => {
       alert("Sub-Collection created!");
       
       // Refresh local array memories context records
-      const subRes = await fetch('/api/sub-categories');
+      const subRes = await fetch('/api/sub-categories', {
+        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` }
+      });
       const subData = await subRes.json();
       if (subData.success) setSubCategories(subData.data);
       
@@ -527,7 +542,11 @@ const handleCreateSubCategory = async (e) => {
               const dataStream = new FormData();
               dataStream.append('file', file);
               try {
-                const res = await fetch('/api/upload', { method: 'POST', body: dataStream });
+                const res = await fetch('/api/upload', {
+                  method: 'POST',
+                  headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` },
+                  body: dataStream
+                });
                 const result = await res.json();
                 if (result.success) {
                   setNewSubData(prev => ({ ...prev, imageUrl: result.url }));
@@ -599,7 +618,11 @@ const handleCreateSubCategory = async (e) => {
             const streamData = new FormData();
             streamData.append('file', file);
             try {
-              const res = await fetch('/api/upload', { method: 'POST', body: streamData });
+              const res = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` },
+                body: streamData
+              });
               const result = await res.json();
               if (result.success) {
                 setFormData(prev => ({ ...prev, mainImageInput: result.url }));
@@ -666,7 +689,11 @@ const handleCreateSubCategory = async (e) => {
             const data = new FormData();
             data.append('file', file);
             try {
-              const res = await fetch('/api/upload', { method: 'POST', body: data });
+              const res = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` },
+                body: data
+              });
               const result = await res.json();
               if (result.success) urls.push(result.url);
             } catch (err) { console.error(err); }

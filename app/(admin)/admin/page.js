@@ -13,7 +13,9 @@ export default function AdminDashboard() {
           <h2 className="font-display-hero text-[32px] md:text-[40px] uppercase tracking-tighter leading-none">Command Center</h2>
           <div className="flex gap-6 items-center">
             <button className="flex items-center gap-2 border border-antique-champagne px-4 py-2 hover:bg-antique-champagne hover:text-black transition-all group">
-              <span className="font-nav-link text-[10px] tracking-[0.2em] uppercase">New Product</span>
+              <Link className="font-nav-link text-[10px] tracking-[0.2em] uppercase" href="/admin/Inventory">
+                PRODUCTS
+              </Link>
             </button>
             <span className="material-symbols-outlined text-white/60 hover:text-white cursor-pointer hidden md:block">notifications</span>
             <div className="w-10 h-10 bg-surface-container border border-white/10 flex items-center justify-center cursor-pointer hover:border-antique-champagne transition-colors">
@@ -69,38 +71,7 @@ export default function AdminDashboard() {
                 <span className="font-label-caps text-[10px] tracking-[0.3em] text-on-surface/40 uppercase text-right">Status</span>
               </div>
 
-              {/* Row 1 */}
-              <div className="grid grid-cols-5 gap-4 px-8 py-6 border-b border-white/5 group hover:bg-white/5 transition-colors cursor-pointer items-center">
-                <span className="font-nav-link text-[11px] tracking-[0.1em] text-white">#SHM-0492</span>
-                <span className="font-body-lg text-[14px] text-white/80">Elena Rostova</span>
-                <span className="font-body-lg text-[14px] text-white/60">Oct 24, 2024</span>
-                <span className="font-body-lg text-[14px] text-primary">€650.00</span>
-                <div className="flex justify-end">
-                  <span className="font-label-caps text-[10px] tracking-[0.2em] px-4 py-2 bg-antique-champagne text-black">PAID</span>
-                </div>
-              </div>
 
-              {/* Row 2 */}
-              <div className="grid grid-cols-5 gap-4 px-8 py-6 border-b border-white/5 group hover:bg-white/5 transition-colors cursor-pointer items-center">
-                <span className="font-nav-link text-[11px] tracking-[0.1em] text-white">#SHM-0491</span>
-                <span className="font-body-lg text-[14px] text-white/80">Marcus V.</span>
-                <span className="font-body-lg text-[14px] text-white/60">Oct 24, 2024</span>
-                <span className="font-body-lg text-[14px] text-primary">€1,240.00</span>
-                <div className="flex justify-end">
-                  <span className="font-label-caps text-[10px] tracking-[0.2em] px-4 py-2 border border-white/20 text-white/60">PROCESSING</span>
-                </div>
-              </div>
-
-              {/* Row 3 */}
-              <div className="grid grid-cols-5 gap-4 px-8 py-6 group hover:bg-white/5 transition-colors cursor-pointer items-center">
-                <span className="font-nav-link text-[11px] tracking-[0.1em] text-white">#SHM-0490</span>
-                <span className="font-body-lg text-[14px] text-white/80">A. Dubois</span>
-                <span className="font-body-lg text-[14px] text-white/60">Oct 23, 2024</span>
-                <span className="font-body-lg text-[14px] text-primary">€280.00</span>
-                <div className="flex justify-end">
-                  <span className="font-label-caps text-[10px] tracking-[0.2em] px-4 py-2 bg-antique-champagne text-black">PAID</span>
-                </div>
-              </div>
 
             </div>
           </div>
