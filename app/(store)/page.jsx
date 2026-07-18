@@ -386,28 +386,29 @@ export default function Home() {
           onClick={() => setActiveSilverSub(sub.id)}
           className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
         >
-          <div 
-            className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out
-              ${activeSilverSub === sub.id 
-                ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-                : 'border-white/10 group-hover:border-white/30'
-              }`}
-          >
-            {/* <Image
-              src={sub.image_url || "/assets/placeholder-circle.jpg"}
-              alt={`${sub.name} Collection`}
-              fill
-              sizes="(max-width: 768px) 64px, 80px"
-              className={`object-cover transition-all duration-700 ease-out
-                ${activeSilverSub === sub.id 
-                  ? 'grayscale-0 scale-105' 
-                  : 'grayscale group-hover:grayscale-0 group-hover:scale-110'
-                }`}
-            /> */}
-            <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-              ${activeSilverSub === sub.id ? 'border-antique-champagne/20' : 'border-white/5'}`} 
-            />
-          </div>
+       <div 
+  className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out
+    ${activeSilverSub === sub.id 
+      ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
+      : 'border-white/10 group-hover:border-white/30'
+    }`}
+>
+  <Image
+    src={sub.image_url || "/assets/placeholder-circle.jpg"}
+    alt={`${sub.name} Collection`}
+    fill
+    sizes="(max-width: 768px) 64px, 80px"
+    className={`object-cover transition-all duration-700 ease-out ${
+      activeSilverSub === sub.id 
+        ? 'grayscale-0 scale-105' 
+        : 'grayscale group-hover:grayscale-0 group-hover:scale-110'
+    }`}
+  />
+  <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
+    ${activeSilverSub === sub.id ? 'border-antique-champagne/20' : 'border-white/5'}`} 
+  />
+</div>
+
           
           <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300 max-w-[80px] sm:max-w-[100px] whitespace-normal break-words leading-tight
             ${activeSilverSub === sub.id ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
@@ -420,40 +421,34 @@ export default function Home() {
 </div>
 
 
-    {/* Filtered Grid Logic for Silver Products */}
+{/* Filtered Grid Logic for Silver Products */}
 <div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">
   {products
     .filter(p => p.parent_category === 'Silver Jewelry' && (activeSilverSub === 'ALL' || p.sub_category_id === activeSilverSub))
+    .slice(0, 12)
     .map((product) => (
       <Link 
         href={`/products/${product.slug}`}
         key={product.id} 
         className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
       >
-        {/* ⚡ THE SOLUTION: Changed from tall 3:4 to wide horizontal 4:3 frame layout to match your ring images perfectly */}
         <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950 border border-transparent group-hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
           <Image 
             src={product.images?.[0] || "/product-placeholder.png"} 
             alt={`${product.name} - Handcrafted Premium Archive by Shomicore`} 
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" // ⚡ SEO Optimization: Adjusted breakpoints to download higher resolution files on mobile grids
-            priority // ⚡ Pre-loads above-the-fold assets to maximize image resolution instantly
-            quality={100} // ⚡ Maximum Clarity: Set compression to 100 to prevent any quality drops on intricate silver textures
-            className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.03]" // ⚡ object-cover fits perfectly now because container and image shapes match exactly!
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            priority 
+            quality={100} 
+            className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.03]" 
           />
-
-          {/* Premium Visual Accent dot */}
           <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
-          
-          {/* Action Hover Slide Reveal Layer */}
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-6 z-10">
             <span className="bg-white text-black font-nav-link px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
               View Archive
             </span>
           </div>
         </div>
-
-        {/* Text Specs Context */}
         <h3 className="font-label-caps text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={product.name}>
           {product.name}
         </h3>
@@ -471,18 +466,17 @@ export default function Home() {
 </div>
 
 
+
   </section>
 
   {/* SECTION 3: LEATHER PRODUCTS CONTAINER*/}
   <section id="leather-products" className="w-full max-w-7xl mx-auto flex flex-col gap-4">
     <div className="flex flex-col items-center text-center mb-4 md:mb-6 px-4">
       <h2 className="font-label-caps text-white text-xs md:text-sm tracking-[0.3em] uppercase font-semibold">
-        Leather Products
+        Leather Products (COMMING SOON)
       </h2>
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
-
-{/* Dynamic Sub-Category Filtering Bar for Leather Goods */}
 <div className="w-full bg-black/40 border-y border-white/10 mb-8 py-5">
 
   <div className="px-4 md:px-12 flex items-center gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
