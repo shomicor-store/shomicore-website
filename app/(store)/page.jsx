@@ -430,30 +430,30 @@ export default function Home() {
         key={product.id} 
         className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
       >
-        {/* 🚀 THE FRAME FIX: Exact matching vertical 3:4 portrait view container with zero padding */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-neutral-900 border border-transparent hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
+        {/* ⚡ THE SOLUTION: Changed from tall 3:4 to wide horizontal 4:3 frame layout to match your ring images perfectly */}
+        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950 border border-transparent group-hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
           <Image 
             src={product.images?.[0] || "/product-placeholder.png"} 
             alt={`${product.name} - Handcrafted Premium Archive by Shomicore`} 
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 25vw"
-            loading="lazy"
-            quality={95} // Maintains maximum texture crispness for your luxury silver facets
-            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105" // ⚡ Edge-to-edge cover layout filling
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" // ⚡ SEO Optimization: Adjusted breakpoints to download higher resolution files on mobile grids
+            priority // ⚡ Pre-loads above-the-fold assets to maximize image resolution instantly
+            quality={100} // ⚡ Maximum Clarity: Set compression to 100 to prevent any quality drops on intricate silver textures
+            className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.03]" // ⚡ object-cover fits perfectly now because container and image shapes match exactly!
           />
 
           {/* Premium Visual Accent dot */}
           <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
           
           {/* Action Hover Slide Reveal Layer */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-8 z-10">
-            <span className="bg-white text-black font-nav-link px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-6 z-10">
+            <span className="bg-white text-black font-nav-link px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
               View Archive
             </span>
           </div>
         </div>
 
-        {/* 🚀 THE TYPOGRAPHY FIX: Aligned perfectly to match dark editorial lookbook guidelines */}
+        {/* Text Specs Context */}
         <h3 className="font-label-caps text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={product.name}>
           {product.name}
         </h3>

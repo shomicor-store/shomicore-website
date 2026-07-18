@@ -12,7 +12,7 @@ export default function InventoryPage() {
   const [isUploading, setIsUploading] = useState(false);
 const [isSubUploading, setIsSubUploading] = useState(false);
 
-  // Modal & Edit Engine State Flips
+  // Modal edit or new 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editProductId, setEditProductId] = useState(null);
@@ -21,7 +21,6 @@ const [isSubUploading, setIsSubUploading] = useState(false);
   const [showNewSubForm, setShowNewSubForm] = useState(false);
   const [newSubData, setNewSubData] = useState({ name: '', imageUrl: '' });
 
-  // Baseline Empty Form Schema Definition Helper
 const emptyFormState = {
   name: '',
   description: '',
@@ -32,11 +31,10 @@ const emptyFormState = {
   sizingType: 'standard',
   availableSizes: [],
   isFeatured: false,
-  imagesInput: '',    // ⚡ WILL RETAIN DETAILED GALLERY LINKS ONLY
-  mainImageInput: ''  // 🚀 NEW MASTER TARGET STRING CONTAINER
+  imagesInput: '',    
+  mainImageInput: '' 
 };
 
-  // Primary Controlled Form State Matrix Holder
   const [formData, setFormData] = useState(emptyFormState);
 
 
@@ -48,7 +46,6 @@ const emptyFormState = {
 useEffect(() => {
   if (!isEditMode) {
     if (formData.parentCategory === 'Silver Jewelry') {
-      // ⚡ THE AUTO-SELECT FIX: Automatically select all 22 chart sizes from start
       const allSizes = ringChartMatrix.map(row => row.us);
       setFormData(prev => ({ 
         ...prev, 
@@ -82,7 +79,6 @@ useEffect(() => {
     }
   };
 
-  // Enforces dynamic array token inserts for checkbox clicks
   const handleSizeToggle = (size) => {
     setFormData(prev => {
       const exists = prev.availableSizes.includes(size);
@@ -95,24 +91,23 @@ useEffect(() => {
     });
   };
 
-  // ⚡ THE RESET FIX: Centralized cleanup utility to fully clear form structures out of memory
+
   const handleCloseAndResetModal = () => {
     setIsModalOpen(false);
     setIsEditMode(false);
     setEditProductId(null);
     setShowNewSubForm(false);
     setNewSubData({ name: '', imageUrl: '' });
-    setFormData(emptyFormState); // Hard flush all standard elements back to zero parameters
+    setFormData(emptyFormState); 
   };
 
-  // ⚡ THE CAPTURE FIX: Explicitly extracts and maps row fields into matching input fields
   const handleOpenEditModal = (product) => {
     setEditProductId(product.id);
     setIsEditMode(true);
     
     setFormData({
       name: product.name || '',
-      description: product.description || '', // Fixes description editing stall
+      description: product.description || '', 
       price: product.price ? product.price.toString() : '',
       parentCategory: product.parent_category || 'Artificial jewelry',
       subCategoryId: product.sub_category_id || '',
@@ -126,7 +121,7 @@ useEffect(() => {
     setIsModalOpen(true);
   };
 
-  // Transaction Handler Dispatcher for Creation and Upgrades
+
 const handleSubmitProduct = async (e) => {
   e.preventDefault();
 
@@ -139,7 +134,6 @@ const secondaryGalleryArray = formData.imagesInput
 
 
 
-// placing your Master Image at index 0!
 const unifiedPostgreSQLImagesArray = [formData.mainImageInput, ...secondaryGalleryArray];
 
 const payload = {
@@ -148,7 +142,7 @@ const payload = {
   price: parseFloat(formData.price),
   parentCategory: formData.parentCategory,
   subCategoryId: formData.subCategoryId || null,
-  images: unifiedPostgreSQLImagesArray, // Send this unified array to your database
+  images: unifiedPostgreSQLImagesArray,
   colors: colorsArray,
   sizingType: formData.sizingType,
   availableSizes: formData.availableSizes,

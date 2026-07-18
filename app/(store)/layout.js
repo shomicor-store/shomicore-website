@@ -17,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata = {
+    metadataBase: new URL('https://shomicore.es'),
   title: "Shomicore | Handcrafted Luxury Silver Jewelry & Leather Goods",
   description: "Discover Shomicore's exclusive collections of premium Silver Jewelry, custom Artificial Pieces, and handcrafted luxury Leather Goods.",
   openGraph: {

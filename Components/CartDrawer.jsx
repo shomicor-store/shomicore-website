@@ -18,17 +18,12 @@ export default function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-[200] overflow-hidden select-none">
-      {/* 1. Backdrop Dismissal Layer Map Overlay */}
       <div 
         onClick={() => setIsCartOpen(false)}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-500 cursor-pointer"
       />
-
-      {/* 2. Main Slide-Over Drawer Shell Column Layout */}
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
         <div className="w-screen max-w-md bg-neutral-950 border-l border-white/10 flex flex-col shadow-2xl h-full text-white">
-          
-          {/* Drawer Header Segment */}
           <div className="px-6 py-5 border-b border-white/5 flex justify-between items-center bg-black/20">
             <div>
               <h2 className="font-label-caps text-[12px] tracking-[0.25em] text-white uppercase font-bold">
@@ -47,8 +42,6 @@ export default function CartDrawer() {
               </svg>
             </button>
           </div>
-
-          {/* Drawer Cart Row Item Container Streams */}
           <div className="flex-1 overflow-y-auto py-6 px-6 scrollbar-none flex flex-col gap-6">
             {cart.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center gap-3 opacity-30 py-20">
@@ -68,8 +61,6 @@ export default function CartDrawer() {
                       className="object-cover" 
                     />
                   </div>
-
-                  {/* Operational content layout information parameters */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start gap-2">
@@ -81,14 +72,12 @@ export default function CartDrawer() {
                         </span>
                       </div>
                       
-                      {/* Variation sub-specification tag strings labels text layout panels */}
                       <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1 font-label-caps text-[8px] tracking-widest text-white/40 uppercase">
                         <span>Fit: <span className="text-white/70 font-mono">{item.size}</span></span>
                         <span>Hue: <span className="text-white/70">{item.color}</span></span>
                       </div>
                     </div>
 
-                    {/* Operational counter adjustments controls */}
                     <div className="flex justify-between items-center mt-2">
                       <div className="flex items-center border border-white/10 bg-black/20 h-7 text-[11px]">
                         <button 
@@ -119,7 +108,6 @@ export default function CartDrawer() {
             )}
           </div>
 
-          {/* Drawer Pricing Checkout Footer Panel */}
           {cart.length > 0 && (
             <div className="px-6 py-6 border-t border-white/5 bg-black/40 flex flex-col gap-4">
               <div className="flex justify-between items-baseline">

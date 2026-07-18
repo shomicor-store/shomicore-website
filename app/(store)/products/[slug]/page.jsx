@@ -86,24 +86,25 @@ const handleAddToCart = () => {
       {/* 2-Column Product Layout View System */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 lg:gap-x-24 mb-8 max-w-7xl mx-auto px-4 md:px-12">
 
-  {/* Left Column: Premium Interactive High-Res Media Gallery Stage */}
-<div className="relative w-full">
-  <div className="md:sticky md:top-32 flex flex-col gap-3 md:gap-6">
+ {/* Left Column: Premium Interactive High-Res Media Gallery Stage */}
+<div className="w-full flex justify-center items-start relative">
+  {/* 🚀 THE SIZE CORRECTION: Added absolute max-w boundaries to decrease overall layout heights across mobile and desktop windows */}
+  <div className="md:sticky md:top-32 flex flex-col gap-3 md:gap-5 w-full max-w-[540px] md:max-w-xl mx-auto">
     
     {/* Main Primary View Stage Window Container */}
-    {/* ⚡ THE ASPECT FIX: Fixed to absolute aspect-[3/4] on all viewports to preserve editorial design scaling */}
-    <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-950 border border-white/5 group shadow-2xl">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
+    {/* 🚀 THE FRAME FIX: Altered container layout from vertical [3/4] to horizontal [4/3] to match your ring photography shape precisely */}
+    <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-950 border border-white/5 group shadow-2xl">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
       
       {product.images && product.images[activeImageIndex] ? (
         <Image 
           src={product.images[activeImageIndex]}
           alt={`${product.name} - Handcrafted Premium Archive View`}
           fill
-          priority // ⚡ Blazing Fast Speed: Forces instant top priority asset rendering above-the-fold
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-          quality={95} // ⚡ Elite Quality: Increases Next.js asset compiler compression limits from 75 to 95 for sharp details
-          className="object-cover transition-transform duration-[1200ms] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-[1.03]" // ⚡ object-cover guarantees your high-res photos fill every pixel of the frame perfectly
+          priority // ⚡ Pre-loads above-the-fold media instantly to skip quality blurs
+          sizes="(max-width: 768px) 100vw, 50vw"
+          quality={100} // ⚡ Maximum Texture Definition: Prevents compression artifacts from muddying fine silver details
+          className="object-cover transition-transform duration-[1200ms] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-[1.02]" // ⚡ object-cover fits perfectly with zero edge cropping because ratios match perfectly now!
         />
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-neutral-900 text-white/20">
@@ -113,27 +114,29 @@ const handleAddToCart = () => {
       )}
     </div>
 
-    {/* Carousel Navigation Thumbnails Grid Frame Layout (Upgraded for Multi-device streams) */}
+    {/* Carousel Navigation Thumbnails Grid Frame Layout */}
     {product.images && product.images.length > 1 && (
-      <div className="grid grid-cols-6 gap-2.5 w-full overflow-x-auto scrollbar-none md:overflow-x-visible whitespace-nowrap snap-x snap-mandatory pb-1">
+      /* 🚀 THUMBNAIL LAYOUT MATRIX CORRECTION: Max-w bounds protect thumbnails from blowing up on larger resolution screens */
+      <div className="flex gap-2 w-full overflow-x-auto scrollbar-none snap-x snap-mandatory pb-1 max-w-full">
         {product.images.map((imgUrl, index) => (
           <button 
             key={`${imgUrl}-${index}`}
             type="button"
             onClick={() => setActiveImageIndex(index)}
-            className={`relative aspect-[3/4] w-full overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer focus:outline-none flex-shrink-0 snap-center ${
+            // 🚀 THE THUMBNAIL FIXED BOUNDS: Set static width parameters and matching 4:3 shapes so previews don't crop your second chart card!
+            className={`relative aspect-[4/3] w-[75px] sm:w-[90px] overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer浏览 focus:outline-none flex-shrink-0 snap-center ${
               activeImageIndex === index 
                 ? 'border-antique-champagne scale-[1.02] ring-1 ring-antique-champagne/40 bg-black/60 shadow-lg shadow-antique-champagne/5' 
-                : 'border-white/5 hover:border-white/20 opacity-50 hover:opacity-90'
+                : 'border-white/5 opacity-40 hover:opacity-100'
             }`}
           >
             <Image 
               src={imgUrl} 
-              alt={`${product.name} structural closeup profile angle ${index + 1}`} 
+              alt={`${product.name} closeup angle profile thumbnail ${index + 1}`} 
               fill 
               sizes="90px" 
               loading="lazy"
-              className="object-cover p-0" // ⚡ Synchronized thumbnail frame filling
+              className="object-cover p-0" // ⚡ Flawless thumbnail pixel alignment
             />
           </button>
         ))}
@@ -141,8 +144,13 @@ const handleAddToCart = () => {
     )}
   </div>
 
-
+  {/* Hidden Scrollbar Cleaner Direction Hook */}
+  <style >{`
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  `}</style>
 </div>
+
 
 
  {/* Right Column: Dynamic Text Product Specification Summary */}

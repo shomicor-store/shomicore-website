@@ -72,7 +72,6 @@ export default function LuxuryNavbar() {
               </svg>
             </button>
 
-            {/* ⚡ THE FIX: Converted link parameter into an active interactive state button click dispatcher */}
             <button 
               onClick={() => setIsCartOpen(true)}
               type="button"
