@@ -13,10 +13,7 @@ export const metadata = {
 export default function StoreLayout({ children }) {
   return (
     <CartProvider>
-      {/* 
-        ✅ THE FIX: Removed <html> and <body>. 
-        We use a div wrapper styled with your min-h-full setup.
-      */}
+ 
       <div className="min-h-full flex flex-col">
         <Navbar />
         
