@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -14,19 +12,19 @@ export default function AdminLoginPage() {
 
     const response = await fetch('/api/admin/login', {
       method: 'POST',
+      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password })
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
       setError(data.message || 'Invalid password');
       return;
     }
 
-    router.push('/admin');
-    router.refresh();
+    window.location.assign('/admin');
   }
 
   return (
