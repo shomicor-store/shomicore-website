@@ -1,48 +1,33 @@
-import { EB_Garamond, Inter } from "next/font/google";
-import "./globals.css";
+// app/(store)/layout.js
 import Navbar from "@/Components/Navbar";
 import CartDrawer from "@/Components/CartDrawer";
 import Footer from "@/Components/Footer";
 import { CartProvider } from '@/context/CartContext';
-const ebGaramond = EB_Garamond({
-  variable: "--font-eb-garamond",
-  subsets: ["latin"],
-  display: "swap",
-});
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
+// ⚡ SEO: Page-level metadata that automatically overrides/extends the root layout
 export const metadata = {
-    metadataBase: new URL('https://shomicore.es'),
-  title: "Shomicore | Handcrafted Luxury Silver Jewelry & Leather Goods",
-  description: "Discover Shomicore's exclusive collections of premium Silver Jewelry, custom Artificial Pieces, and handcrafted luxury Leather Goods.",
-  openGraph: {
-    title: "Shomicore | Premium Luxury Collections",
-    description: "Shop premium Silver Jewelry, Artificial Pieces, and Leather Goods online.",
-    images: [{ url: '/assets/og-home.jpg' }],
-  },
+  title: "Shop Luxury Handcrafted Jewelry & Leather Goods",
+  description: "Browse the official Shomicore store in Spain. Premium Silver Jewelry and luxury leather goods handcrafted to perfection.",
 };
 
-
-export default function RootLayout({ children }) {
+export default function StoreLayout({ children }) {
   return (
-
     <CartProvider>
-    <html
-      lang="en"
-      className={`${ebGaramond.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+      {/* 
+        ✅ THE FIX: Removed <html> and <body>. 
+        We use a div wrapper styled with your min-h-full setup.
+      */}
+      <div className="min-h-full flex flex-col">
         <Navbar />
-        {children}
+        
+        {/* Main content wrapper to push footer down if page is short */}
+        <main className="flex-1">
+          {children}
+        </main>
+
         <CartDrawer />
-        <Footer/>
-      </body>
-    </html>
-      </CartProvider>
+        <Footer />
+      </div>
+    </CartProvider>
   );
 }
