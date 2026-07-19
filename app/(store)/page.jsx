@@ -203,129 +203,181 @@ export default function Home() {
     </div>
 
   
-{/* Dynamic Sub-Category Artificial Jewelry */}
-<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+{/* Dynamic Sub-Category Artificial Jewelry Navigation */}
+<div className="w-full bg-gradient-to-b from-black/60 to-black/20 backdrop-blur-md border-y border-white/[0.06] mb-10 py-8 relative">
+  
+  {/* Smooth horizontal scrolling track with robust spacing layout constraints */}
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
+    {/* ALL BUTTON FILTER */}
     <button
       onClick={() => setActiveArtificialSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
     >
+      {/* INCREASED IMAGE BOX FRAME: Expanded from w-28/h-28 up to w-32/h-32 (mobile) and w-40/h-40 (desktop) */}
       <div 
-        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
           ${activeArtificialSub === 'ALL' 
-            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-            : 'border-white/10 group-hover:border-white/40'
+            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+            : 'border-white/[0.08] group-hover:border-white/30'
           }`}
       >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
-          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
+          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
         >
           ALL
         </span>
         <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeArtificialSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
+          ${activeArtificialSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
         />
       </div>
       
-      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
-        ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
-      >
-        VIEW ALL
-      </span>
+      {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+      <div className="flex flex-col items-center gap-1.5 w-full">
+        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
+          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+        >
+          View All
+        </span>
+        {/* Sleek structural bottom track indicator */}
+        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeArtificialSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+      </div>
     </button>
 
+    {/* SUB CATEGORY LIST MAP */}
     {subCategories
       .filter(sub => sub.parent_category === 'Artificial jewelry')
       .map((sub) => (
         <button
           key={sub.id}
           onClick={() => setActiveArtificialSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
         >
+          {/* INCREASED IMAGE BOX FRAME: Expanded surface space with consistent luxury geometry scale */}
           <div 
-            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900/60 transition-all duration-500 ease-out flex items-center justify-center
+            className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#121212] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex items-center justify-center
               ${activeArtificialSub === sub.id 
-                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-                : 'border-white/10 group-hover:border-white/40'
+                ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+                : 'border-white/[0.08] group-hover:border-white/30'
               }`}
           >
             <Image
               src={sub.image_url || "/placeholder-circle.jpg"}
               alt={`${sub.name} Collection`}
               fill
-              sizes="(max-width: 768px) 112px, 144px"
-              className={`object-contain p-2.5 transition-all duration-700 ease-out mix-blend-lighten ${
+              sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
+              className={`object-contain p-2.5 transition-transform duration-[1000ms] ease-out mix-blend-screen ${
                 activeArtificialSub === sub.id 
-                  ? 'scale-105' 
-                  : 'group-hover:scale-115'
+                  ? 'scale-[1.05]' 
+                  : 'group-hover:scale-[1.1]'
               }`}
             />
             <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-              ${activeArtificialSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
+              ${activeArtificialSub === sub.id ? 'border-antique-champagne/20' : 'border-white/[0.02]'}`} 
             />
           </div>
-          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
-            ${activeArtificialSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
-          >
-            {sub.name}
-          </span>
+          
+          {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+          <div className="flex flex-col items-center gap-1.5 max-w-[130px] sm:max-w-[150px] md:max-w-[170px]">
+            <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.18em] uppercase transition-colors duration-500 whitespace-normal break-words leading-relaxed font-medium
+              ${activeArtificialSub === sub.id ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+            >
+              {sub.name}
+            </span>
+            {/* Sleek structural bottom track indicator */}
+            <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeArtificialSub === sub.id ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+          </div>
         </button>
     ))}
-
   </div>
 </div>
 
 
 
- <div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">
+{/* Dynamic Sub-Category Artificial Jewelry - Unbounded Text Layout */}
+<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16 w-full bg-transparent">
   {products
     .filter(p => p.parent_category === 'Artificial jewelry' && (activeArtificialSub === 'ALL' || p.sub_category_id === activeArtificialSub))
+    .slice(0, 12)
     .map((product) => (
       <Link 
         href={`/products/${product.slug}`}
         key={product.id} 
-        className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
+        className="group flex flex-col cursor-pointer w-full h-full justify-between"
       >
-        {/* 🚀 THE FRAME FIX: High-end 3:4 portrait view container with zero padding */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-neutral-900 border border-transparent hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
-          <Image 
-            src={product.images?.[0] || "/product-placeholder.png"} 
-            alt={`${product.name} - Handcrafted Premium Archive by Shomicore`} 
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 25vw"
-            loading="lazy"
-            quality={95} // Forces maximum luxury texture definition rendering
-            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105" // ⚡ Edge-to-edge cover layout filling
-          />
-
-          {/* Premium Visual Accent dot */}
-          <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
+        {/* Container wrapping content to align metadata perfectly with the bottom elements */}
+        <div className="flex flex-col w-full">
           
-          {/* Action Hover Slide Reveal Layer (Hidden on mobile grid view scales for clean UX targets) */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-8 z-10">
-            <span className="bg-white text-black font-nav-link px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
-              View Archive
-            </span>
+          {/* SHARP LOOKBOOK CANVAS CONTAINER - FORCED ASPECT SQUARE */}
+          <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-[#090909] to-[#121212] border border-white/[0.03] group-hover:border-antique-champagne/20 transition-all duration-700 w-full mb-4 flex items-center justify-center p-4">
+            <Image 
+              src={product.images?.[0] || "/product-placeholder.png"} 
+              alt={`${product.name} - Handcrafted Premium Archive by Shomicor`} 
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              priority 
+              quality={95}
+              className="object-contain p-2 mix-blend-screen transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.04]" 
+            />
+            
+            {/* AMBIENT EXHIBITION BACKLIGHT */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_75%)] pointer-events-none group-hover:opacity-150 transition-opacity duration-700" />
+            
+            {/* SIGNATURE BRAND ASSET ALIGNMENT DOT */}
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1.5 w-1.5 rounded-full bg-antique-champagne z-10 shadow-[0_0_8px_rgba(230,187,119,0.5)] group-hover:scale-110 transition-transform duration-500" />
+            
+            {/* ACTION QUICK VIEW REVEAL LAYER */}
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 hidden md:flex items-center justify-center z-10 backdrop-blur-[2px]">
+              <span className="bg-white text-black font-nav-link px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-medium text-center select-none shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 border border-white">
+                View Archive
+              </span>
+            </div>
           </div>
+
+          {/* DYNAMIC TITLE WITH PROGRESSIVE SEPARATOR - ZERO TEXT TRUNCATION */}
+          <div className="flex flex-col gap-2 w-full text-left px-1">
+            {/* 
+              CRITICAL UNBOUNDED TEXT FIX: 
+              Completely removed 'truncate' to let long names wrap vertically down.
+              whitespace-normal allows the layout to expand onto lines 2, 3, or more naturally.
+              break-words and hyphens-auto manage elongated item codes safely.
+            */}
+            <h3 
+              className="font-label-caps text-[11px] md:text-[12px] uppercase tracking-[0.12em] text-white/90 font-bold leading-snug break-words whitespace-normal block w-full hyphens-auto transition-colors duration-300 group-hover:text-antique-champagne" 
+              title={product.name}
+            >
+              {product.name}
+            </h3>
+            
+            {/* DYNAMIC PROGRESSIVE SEPARATOR */}
+            <div className="relative w-full h-[1px] bg-white/[0.06] overflow-hidden my-0.5">
+              <div className="absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-transparent via-antique-champagne/40 to-transparent group-hover:w-full transition-all duration-700 ease-out" />
+            </div>
+          </div>
+          
         </div>
 
-        {/* 🚀 THE TYPOGRAPHY FIX: Aligned perfectly to match dark editorial lookbook guidelines */}
-        <h3 className="font-label-caps text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={product.name}>
-          {product.name}
-        </h3>
-        
-        <div className="flex justify-between items-baseline gap-2 w-full">
-          <p className="font-body-lg text-[11px] md:text-[13px] text-white/40 italic truncate max-w-[60%] capitalize">
+        {/* BALANCED TRANSACTION DETAILS LAYER - ANCHORED STABLY AT THE BOTTOM HORIZON BASELINE */}
+        <div className="flex justify-between items-center gap-2 w-full pt-1.5 px-1 mt-auto">
+          
+          {/* CATEGORY BLOCK DETAILS */}
+          <p className="font-body-lg text-[10px] text-white/40 tracking-[0.15em] uppercase font-medium break-words whitespace-normal leading-normal max-w-[60%]">
             Artificial Pieces
           </p>
-          <p className="font-body-lg text-[11px] md:text-[14px] text-antique-champagne font-bold whitespace-nowrap">
+          
+          {/* SOLID FINANCIAL PRICE BLOCK MARKER */}
+          <p className="font-body-lg text-[11px] md:text-[13px] text-antique-champagne font-semibold tracking-wider whitespace-nowrap bg-white/[0.02] group-hover:bg-white/[0.05] px-2 py-1 border border-white/[0.08] group-hover:border-antique-champagne/30 transition-all duration-500 shrink-0">
             €{parseFloat(product.price).toFixed(2)}
           </p>
+          
         </div>
       </Link>
   ))}
 </div>
+
+
+
+
 
   </section>
 
@@ -340,81 +392,90 @@ export default function Home() {
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
 
-   {/* Dynamic Sub-Category */}
-<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+
+<div className="w-full bg-gradient-to-b from-black/60 to-black/20 backdrop-blur-md border-y border-white/[0.06] mb-10 py-8 relative">
+  
+
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
+    {/* ALL BUTTON FILTER */}
     <button
       onClick={() => setActiveSilverSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
     >
-      {/* 
-        MAXIMUM CONTMPORARY IMPACT SCALE OVERHAUL:
-        Upgraded grid cell sizing dimensions to ultra-prominent square proportions
-        (w-28 h-28 on mobile scaling up dynamically to w-36 h-36 on professional desktop layouts).
-      */}
+      {/* INCREASED IMAGE BOX FRAME: Expanded base scale to w-32/h-32 up to w-40/h-40 on large screens */}
       <div 
-        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
           ${activeSilverSub === 'ALL' 
-            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-            : 'border-white/10 group-hover:border-white/40'
+            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+            : 'border-white/[0.08] group-hover:border-white/30'
           }`}
       >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
-          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
+          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
         >
           ALL
         </span>
         <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeSilverSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
+          ${activeSilverSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
         />
       </div>
       
-      {/* Large readable metadata tags mapping */}
-      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
-        ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
-      >
-        VIEW ALL
-      </span>
+      {/* CLEAN HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+      <div className="flex flex-col items-center gap-1.5 w-full">
+        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
+          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+        >
+          View All
+        </span>
+        {/* Sleek structural underline to replace bulky outlines */}
+        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeSilverSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+      </div>
     </button>
 
+    {/* SUB CATEGORY LIST MAP */}
     {subCategories
       .filter(sub => sub.parent_category === 'Silver Jewelry')
       .map((sub) => (
         <button
           key={sub.id}
           onClick={() => setActiveSilverSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
         >
-  
+          {/* INCREASED IMAGE BOX FRAME: Scaled up to w-32/h-32 up to w-40/h-40 with clear layout constraints */}
           <div 
-            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out flex items-center justify-center
+            className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#121212] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex items-center justify-center
               ${activeSilverSub === sub.id 
-                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-                : 'border-white/10 group-hover:border-white/40'
+                ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+                : 'border-white/[0.08] group-hover:border-white/30'
               }`}
           >
             <Image
               src={sub.image_url || "/assets/placeholder-circle.jpg"}
               alt={`${sub.name} Collection`}
               fill
-              sizes="(max-width: 768px) 112px, 144px"
-              className={`object-contain p-2.5 transition-all duration-700 ease-out ${
+              sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
+              className={`object-contain p-2 transition-transform duration-[1000ms] ease-out mix-blend-screen ${
                 activeSilverSub === sub.id 
-                  ? 'scale-105' 
-                  : 'group-hover:scale-115'
+                  ? 'scale-[1.05]' 
+                  : 'group-hover:scale-[1.1]'
               }`}
             />
             <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-              ${activeSilverSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
+              ${activeSilverSub === sub.id ? 'border-antique-champagne/20' : 'border-white/[0.02]'}`} 
             />
           </div>
           
-          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
-            ${activeSilverSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
-          >
-            {sub.name}
-          </span>
+          {/* CLEAN HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+          <div className="flex flex-col items-center gap-1.5 max-w-[130px] sm:max-w-[150px] md:max-w-[170px]">
+            <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.18em] uppercase transition-colors duration-500 whitespace-normal break-words leading-relaxed font-medium
+              ${activeSilverSub === sub.id ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+            >
+              {sub.name}
+            </span>
+            {/* Sleek structural underline */}
+            <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeSilverSub === sub.id ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+          </div>
         </button>
     ))}
   </div>
@@ -422,8 +483,11 @@ export default function Home() {
 
 
 
-{/* Filtered Grid Logic for Silver Products */}
-<div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">
+
+
+
+{/* Dynamic products of silver jewelry */}
+<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16 w-full bg-transparent">
   {products
     .filter(p => p.parent_category === 'Silver Jewelry' && (activeSilverSub === 'ALL' || p.sub_category_id === activeSilverSub))
     .slice(0, 12)
@@ -431,40 +495,75 @@ export default function Home() {
       <Link 
         href={`/products/${product.slug}`}
         key={product.id} 
-        className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
+        className="group flex flex-col cursor-pointer w-full h-full justify-between"
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950 border border-transparent group-hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
-          <Image 
-            src={product.images?.[0] || "/product-placeholder.png"} 
-            alt={`${product.name} - Handcrafted Premium Archive by Shomicore`} 
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            priority 
-            quality={100} 
-            className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.03]" 
-          />
-          <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-6 z-10">
-            <span className="bg-white text-black font-nav-link px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
-              View Archive
-            </span>
+        {/* Container wrapping content to align metadata perfectly with the bottom elements */}
+        <div className="flex flex-col w-full">
+          
+          {/* PREMIUM IMAGE CANVAS */}
+          <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#121212] border border-white/[0.04] group-hover:border-antique-champagne/30 transition-all duration-700 w-full mb-4 flex items-center justify-center p-4">
+            <Image 
+              src={product.images?.[0] || "/product-placeholder.png"} 
+              alt={`${product.name} - Handcrafted Premium Archive by Shomicor`} 
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              priority 
+              quality={95} 
+              className="object-contain p-2 mix-blend-screen transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.05]" 
+            />
+            
+            {/* RADIAL GLOW BEHIND PRODUCT */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)] pointer-events-none group-hover:opacity-150 transition-opacity duration-700" />
+            
+            {/* THE BRAND PIN */}
+            <div className="absolute top-4 right-4 h-1.5 w-1.5 rounded-full bg-antique-champagne z-10 shadow-[0_0_8px_rgba(230,187,119,0.6)] group-hover:scale-125 transition-transform duration-500"></div>
+            
+            {/* REFINED HOVER ACTION */}
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 hidden md:flex items-center justify-center z-10 backdrop-blur-[2px]">
+              <span className="bg-white text-black font-nav-link px-6 py-3 text-[10px] uppercase tracking-[0.3em] font-medium text-center select-none shadow-2xl transform translate-y-3 group-hover:translate-y-0 transition-all duration-500 delay-75 border border-white">
+                View Archive
+              </span>
+            </div>
+          </div>
+
+          {/* DYNAMIC TITLE UNDERLINE EFFECT - ZERO TEXT TRUNCATION */}
+          <div className="relative pt-0.5 pb-2 px-1 text-left w-full">
+            {/* 
+              CRITICAL UNBOUNDED TEXT FIX: 
+              Completely removed 'truncate' to let long names wrap vertically down.
+              whitespace-normal allows the layout to expand onto lines 2, 3, or more naturally.
+              break-words and hyphens-auto manage elongated item codes safely.
+            */}
+            <h3 
+              className="font-label-caps text-[12px] md:text-[13px] uppercase tracking-[0.12em] text-white/90 font-bold leading-snug break-words whitespace-normal block w-full hyphens-auto transition-colors duration-300 group-hover:text-white" 
+              title={product.name}
+            >
+              {product.name}
+            </h3>
+            <div className="absolute bottom-0 left-1 right-1 h-[1px] bg-white/[0.06] overflow-hidden">
+              <div className="absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-transparent via-antique-champagne/40 to-transparent group-gradient group-hover:w-full transition-all duration-700 ease-out" />
+            </div>
+          </div>
+          
+        </div>
+
+        {/* DETAILS SECTION - ANCHORED STABLY AT THE BOTTOM HORIZON BASELINE */}
+        <div className="flex flex-col gap-1 w-full text-left px-1 mt-auto pt-2">
+          <div className="flex justify-between items-center gap-3 w-full">
+            <p className="font-body-lg text-[9px] md:text-[10px] text-white/40 tracking-[0.2em] uppercase font-medium break-words whitespace-normal leading-normal max-w-[60%]">
+              Silver Jewelry
+            </p>
+            <p className="font-body-lg text-[12px] md:text-[13px] text-antique-champagne font-semibold tracking-wider whitespace-nowrap transition-transform duration-300 group-hover:translate-x-[-2px] bg-white/[0.02] group-hover:bg-white/[0.05] px-2 py-0.5 border border-white/[0.08] group-hover:border-antique-champagne/30 shrink-0">
+              €{parseFloat(product.price).toFixed(2)}
+            </p>
           </div>
         </div>
-        <h3 className="font-label-caps text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={product.name}>
-          {product.name}
-        </h3>
-        
-        <div className="flex justify-between items-baseline gap-2 w-full">
-          <p className="font-body-lg text-[11px] md:text-[13px] text-white/40 italic truncate max-w-[60%] capitalize">
-            Silver Jewelry
-          </p>
-          <p className="font-body-lg text-[11px] md:text-[14px] text-antique-champagne font-bold whitespace-nowrap">
-            €{parseFloat(product.price).toFixed(2)}
-          </p>
-        </div>
+
       </Link>
   ))}
 </div>
+
+
 
 
 
@@ -478,129 +577,169 @@ export default function Home() {
       </h2>
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
-{/* Dynamic Sub-Category Leather Products */}
-<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+{/* Dynamic Sub-Category Leather Products Navigation */}
+<div className="w-full bg-gradient-to-b from-black/60 to-black/20 backdrop-blur-md border-y border-white/[0.06] mb-10 py-8 relative">
+  
+  {/* Smooth horizontal scrolling track with uniform layout constraints */}
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
+    {/* ALL BUTTON FILTER */}
     <button
       onClick={() => setActiveLeatherSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
     >
+      {/* LARGER IMAGE BOX FRAME: Scaled up to w-32/h-32 (mobile) and w-40/h-40 (desktop) */}
       <div 
-        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
           ${activeLeatherSub === 'ALL' 
-            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-            : 'border-white/10 group-hover:border-white/40'
+            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+            : 'border-white/[0.08] group-hover:border-white/30'
           }`}
       >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
-          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
+          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
         >
           ALL
         </span>
         <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeLeatherSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
+          ${activeLeatherSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
         />
       </div>
       
-      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
-        ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
-      >
-        VIEW ALL
-      </span>
+      {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+      <div className="flex flex-col items-center gap-1.5 w-full">
+        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
+          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+        >
+          View All
+        </span>
+        {/* Sleek structural underline active track */}
+        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeLeatherSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+      </div>
     </button>
 
+    {/* SUB CATEGORY LIST MAP */}
     {subCategories
       .filter(sub => sub.parent_category === 'Leather Products')
       .map((sub) => (
         <button
           key={sub.id}
           onClick={() => setActiveLeatherSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
         >
+          {/* LARGER IMAGE BOX FRAME: Expanded proportions to highlight organic product textures */}
           <div 
-            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out flex items-center justify-center
+            className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#121212] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] flex items-center justify-center
               ${activeLeatherSub === sub.id 
-                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
-                : 'border-white/10 group-hover:border-white/40'
+                ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
+                : 'border-white/[0.08] group-hover:border-white/30'
               }`}
           >
             <Image
               src={sub.image_url || "/placeholder-circle.jpg"}
               alt={`${sub.name} Collection`}
               fill
-              sizes="(max-width: 768px) 112px, 144px"
-              className={`object-contain p-2.5 transition-all duration-700 ease-out
-                ${activeLeatherSub === sub.id 
-                  ? 'scale-105' 
-                  : 'group-hover:scale-115'
-                }`}
+              sizes="(max-width: 640px) 128px, (max-width: 768px) 144px, 160px"
+              className={`object-contain p-2.5 transition-transform duration-[1000ms] ease-out mix-blend-screen ${
+                activeLeatherSub === sub.id 
+                  ? 'scale-[1.05]' 
+                  : 'group-hover:scale-[1.1]'
+              }`}
             />
             <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-              ${activeLeatherSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
+              ${activeLeatherSub === sub.id ? 'border-antique-champagne/20' : 'border-white/[0.02]'}`} 
             />
           </div>
           
-          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
-            ${activeLeatherSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
-          >
-            {sub.name}
-          </span>
+          {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
+          <div className="flex flex-col items-center gap-1.5 max-w-[130px] sm:max-w-[150px] md:max-w-[170px]">
+            <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.18em] uppercase transition-colors duration-500 whitespace-normal break-words leading-relaxed font-medium
+              ${activeLeatherSub === sub.id ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
+            >
+              {sub.name}
+            </span>
+            {/* Sleek structural underline active track */}
+            <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeLeatherSub === sub.id ? 'w-8' : 'w-0 group-hover:w-4'}`} />
+          </div>
         </button>
     ))}
   </div>
 </div>
 
-
-
-<div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">
+{/* Dynamic Sub-Category Leather Products - Unbounded Text Layout */}
+<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12 sm:gap-x-6 sm:gap-y-16 w-full bg-transparent">
   {products
     .filter(p => p.parent_category === 'Leather Products' && (activeLeatherSub === 'ALL' || p.sub_category_id === activeLeatherSub))
     .map((product) => (
       <Link 
         href={`/products/${product.slug}`}
         key={product.id} 
-        className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
+        className="group flex flex-col cursor-pointer w-full h-full justify-between"
       >
-        {/* 🚀 THE FRAME FIX: Exact vertical 3:4 portrait view container to match Silver and Artificial */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-neutral-900 border border-transparent hover:border-white/10 transition-colors duration-500 w-full mb-3 md:mb-4">
-          <Image 
-            src={product.images?.[0] || "/product-placeholder.png"} 
-            alt={`${product.name} - Handcrafted Premium Archive by Shomicore`} 
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 25vw"
-            loading="lazy"
-            quality={95} // Maintains clean close-up details for leather textures
-            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105" // ⚡ Edge-to-edge cover layout filling
-          />
-
-          {/* Premium Visual Accent dot */}
-          <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
+        {/* Container wrapping content to align everything nicely with the bottom elements */}
+        <div className="flex flex-col w-full">
           
-          {/* Action Hover Slide Reveal Layer */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-8 z-10">
-            <span className="bg-white text-black font-nav-link px-8 py-3 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
-              View Archive
-            </span>
+          {/* PREMIUM IMAGE CANVAS */}
+          <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#121212] border border-white/[0.03] group-hover:border-antique-champagne/20 transition-all duration-700 w-full mb-4 flex items-center justify-center p-4">
+            <Image 
+              src={product.images?.[0] || "/product-placeholder.png"} 
+              alt={`${product.name} - Handcrafted Premium Archive by Shomicor`} 
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              loading="lazy"
+              quality={95}
+              className="object-contain p-2 mix-blend-screen transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.04]" 
+            />
+
+            {/* Ambient Backlight Spotlight Effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_75%)] pointer-events-none group-hover:opacity-150 transition-opacity duration-700" />
+
+            {/* Premium Visual Accent Dot */}
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1.5 w-1.5 rounded-full bg-antique-champagne z-10 shadow-[0_0_8px_rgba(230,187,119,0.5)] group-hover:scale-110 transition-transform duration-500" />
+            
+            {/* Action Hover Slide Reveal Layer */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 hidden md:flex items-center justify-center z-10 backdrop-blur-[2px]">
+              <span className="bg-white text-black font-nav-link px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-medium text-center select-none border border-white transition-transform duration-500 translate-y-2 group-hover:translate-y-0">
+                View Archive
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-full text-left px-1">
+            
+            <h3 
+              className="font-label-caps text-[11px] md:text-[12px] uppercase tracking-[0.12em] text-white/95 font-bold leading-snug break-words whitespace-normal block w-full hyphens-auto transition-colors duration-300 group-hover:text-antique-champagne" 
+              title={product.name}
+            >
+              {product.name}
+            </h3>
+            <div className="relative w-full h-[1px] bg-white/[0.06] overflow-hidden my-0.5">
+              <div className="absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-transparent via-antique-champagne/40 to-transparent group-hover:w-full transition-all duration-700 ease-out" />
+            </div>
+            
           </div>
         </div>
 
-        {/* 🚀 THE TYPOGRAPHY FIX: Left-aligned minimalist luxury layout */}
-        <h3 className="font-label-caps text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={product.name}>
-          {product.name}
-        </h3>
-        
-        <div className="flex justify-between items-baseline gap-2 w-full">
-          <p className="font-body-lg text-[11px] md:text-[13px] text-white/40 italic truncate max-w-[60%] capitalize">
+        {/* BOTTOM METADATA BAR STRIP */}
+        <div className="flex justify-between items-center gap-3 w-full pt-1.5 px-1 mt-auto">
+          
+          {/* CATEGORY DESIGNATOR */}
+          <p className="font-body-lg text-[9px] md:text-[10px] text-white/40 tracking-[0.15em] uppercase font-medium break-words whitespace-normal leading-normal max-w-[60%]">
             Leather Goods
           </p>
-          <p className="font-body-lg text-[11px] md:text-[14px] text-antique-champagne font-bold whitespace-nowrap">
+          
+          {/* PRICE TAG CONTAINER */}
+          <p className="font-body-lg text-[11px] md:text-[13px] text-antique-champagne font-semibold tracking-wider whitespace-nowrap bg-white/[0.02] group-hover:bg-white/[0.05] px-2 py-0.5 border border-white/[0.08] group-hover:border-antique-champagne/30 transition-all duration-500 shrink-0">
             €{parseFloat(product.price).toFixed(2)}
           </p>
+          
         </div>
+
       </Link>
   ))}
 </div>
+
+
+
 
   </section>
 </main>

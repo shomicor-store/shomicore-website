@@ -12,6 +12,7 @@ export default function SingleProductPage({ params }) {
   const slug = resolvedParams?.slug;
 const router = useRouter();
 const { addToCart, setIsCartOpen } = useCart();
+const [relatedProducts, setRelatedProducts] = useState([]);
 
   // Master Data Metrics Layout States
   const [product, setProduct] = useState(null);
@@ -28,26 +29,40 @@ const { addToCart, setIsCartOpen } = useCart();
 
 const [lightboxImage, setLightboxImage] = useState(null);
 
-  useEffect(() => {
-    if (!slug) return;
-    const loadProductData = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/products/slug/${slug}`);
-        const result = await res.json();
-        if (result.success && result.data) {
-          setProduct(result.data);
-          if (result.data.colors?.length > 0) setSelectedColor(result.data.colors[0]);
+useEffect(() => {
+  if (!slug) return;
 
+  const loadProductAndRelated = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/products/slug/${slug}`);
+      const result = await res.json();
+      
+      if (result.success && result.data) {
+        const mainItem = result.data;
+        setProduct(mainItem);
+        if (mainItem.colors?.length > 0) setSelectedColor(mainItem.colors[0]);
+
+        // 🚀 FETCH RELATED: Queries your API using the main item's active category parameters
+        const relatedRes = await fetch(`/api/products?category=${encodeURIComponent(mainItem.parent_category)}`);
+        const relatedResult = await relatedRes.json();
+        
+        if (relatedResult.success) {
+          // Filter out the active main product from the recommendation list array
+          const filteredList = relatedResult.data.filter(item => item.id !== mainItem.id);
+          setRelatedProducts(filteredList.slice(0, 4)); // Limit view array strictly to 4 items max
         }
-      } catch (err) {
-        console.error("Data tracking crash:", err);
-      } finally {
-        setLoading(false);
       }
-    };
-    loadProductData();
-  }, [slug]);
+    } catch (err) {
+      console.error("Data syncing issue identified inside details view:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadProductAndRelated();
+}, [slug]);
+
 // Master Direct Checkout Shortcut Execution Layer
 const handleBuyNow = () => {
   // 1. Structural variation protection validation guard
@@ -82,23 +97,28 @@ const handleAddToCart = () => {
       {/* 2-Column Product Layout View System */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8 lg:gap-x-24 mb-8 max-w-7xl mx-auto px-4 md:px-12">
 
- {/* Left Column: Premium Interactive High-Res Media Gallery Stage */}
-<div className="w-full flex justify-center items-start relative">
-  <div className="md:sticky md:top-32 flex flex-col gap-3 md:gap-5 w-full max-w-[540px] md:max-w-xl mx-auto">
+{/* Left Column: Premium Interactive High-Res Media Gallery Stage */}
+<div className="w-full flex justify-center items-start relative select-none">
+  {/* Max-width wrapper prevents the square container from becoming too tall on large monitor viewports */}
+  <div className="md:sticky md:top-32 flex flex-col gap-4 w-full max-w-[480px] md:max-w-[500px] mx-auto">
     
     {/* Main Primary View Stage Window Container */}
-    <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-950 border border-white/5 group shadow-2xl">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
+    {/* 🚀 THE FRAME FIX: 
+        1. Changed from aspect-[4/3] to a perfect aspect-square (1:1) to match your ring photography.
+        2. Added p-4 to give your luxury velvet ring boxes a professional breathing space away from the edges. */}
+    <div className="relative aspect-square w-full overflow-hidden bg-neutral-950 border border-white/5 shadow-2xl flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
       
       {product.images && product.images[activeImageIndex] ? (
         <Image 
           src={product.images[activeImageIndex]}
           alt={`${product.name} - Handcrafted Premium Archive View`}
           fill
-          priority 
+          priority // ⚡ Pre-loads above-the-fold media instantly to bypass loading blurs
+          unoptimized={true} // 🚀 THE QUALITY FIX: Disables Next.js default down-sampling compression completely to preserve the raw, crisp high-res quality of your files
           sizes="(max-width: 768px) 100vw, 50vw"
-          quality={100} 
-          className="object-cover transition-transform duration-[1200ms] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-[1.02]" 
+          // 🚀 THE CROPPING FIX: Switched from 'object-cover' to 'object-contain' so the FULL image stays completely visible without cutting anything!
+          className="object-contain transition-transform duration-[800ms] cubic-bezier(0.25, 1, 0.5, 1) hover:scale-[1.03]" 
         />
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-neutral-900 text-white/20">
@@ -110,15 +130,14 @@ const handleAddToCart = () => {
 
     {/* Carousel Navigation Thumbnails Grid Frame Layout */}
     {product.images && product.images.length > 1 && (
-
-      <div className="flex gap-2 w-full overflow-x-auto scrollbar-none snap-x snap-mandatory pb-1 max-w-full">
+      <div className="flex gap-2.5 w-full overflow-x-auto scrollbar-none snap-x snap-mandatory pb-1 max-w-full">
         {product.images.map((imgUrl, index) => (
           <button 
             key={`${imgUrl}-${index}`}
             type="button"
             onClick={() => setActiveImageIndex(index)}
-   
-            className={`relative aspect-[4/3] w-[75px] sm:w-[90px] overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer浏览 focus:outline-none flex-shrink-0 snap-center ${
+            // 🚀 THUMBNAIL TRACK CORRECTION: Fixed to aspect-square and applied object-contain so previews don't crop your alternate images
+            className={`relative aspect-square w-[68px] sm:w-[80px] overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer focus:outline-none flex-shrink-0 snap-center p-1 flex items-center justify-center ${
               activeImageIndex === index 
                 ? 'border-antique-champagne scale-[1.02] ring-1 ring-antique-champagne/40 bg-black/60 shadow-lg shadow-antique-champagne/5' 
                 : 'border-white/5 opacity-40 hover:opacity-100'
@@ -126,11 +145,11 @@ const handleAddToCart = () => {
           >
             <Image 
               src={imgUrl} 
-              alt={`${product.name} closeup angle profile thumbnail ${index + 1}`} 
+              alt={`${product.name} structural closeup profile angle ${index + 1}`} 
               fill 
-              sizes="90px" 
-              loading="lazy"
-              className="object-cover p-0" // ⚡ Flawless thumbnail pixel alignment
+              unoptimized={true} // 🚀 Maintains matching high definition clarity on small preview rows
+              sizes="80px" 
+              className="object-contain p-0.5" 
             />
           </button>
         ))}
@@ -138,11 +157,13 @@ const handleAddToCart = () => {
     )}
   </div>
 
-  <style >{`
+  {/* Hidden Global Scrollbar Dismissal Directives Hook */}
+  <style jsx global>{`
     .scrollbar-none::-webkit-scrollbar { display: none; }
     .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
   `}</style>
 </div>
+
 
 
 
@@ -165,11 +186,71 @@ const handleAddToCart = () => {
   <div className="w-12 h-[1px] bg-white/10 mb-5 md:mb-6"></div>
 
 
-{/* Code snippet example for your live storefront description display tag */}
-{/* Code snippet example for your live storefront description display tag */}
-<p className="font-body-lg text-white/70 text-[13px] md:text-[14px] leading-relaxed font-light whitespace-pre-wrap">
-  {product.description}
-</p>
+
+{/* EDITORIAL DESCRIPTION PANEL */}
+<div className="w-full bg-gradient-to-b from-white/[0.01] to-transparent border-l border-white/[0.08] pl-4 md:pl-6 py-2 my-8">
+  
+  {/* Sub-label heading accent */}
+  <span className="font-label-caps text-[10px] md:text-[11px] tracking-[0.25em] text-white/30 block mb-4 uppercase font-medium">
+     Specifications & Description
+  </span>
+
+  {/* MAIN API DESCRIPTION OUTPUT */}
+  <div className="flex flex-col gap-2 w-full text-left">
+    {product.description
+      ?.split('\n')
+      ?.filter(line => line.trim() !== '')
+      ?.map((line, index) => {
+        // Strip out any dynamic markdown characters (* and -) coming from your live database strings
+        const cleanLine = line.replace(/[\*\-]/g, '').trim();
+
+        // Dynamically style lines that serve as titles or contain distinct tech specs (e.g., lines ending with colons)
+        const isHeader = line.toLowerCase().includes('details');
+        const isSpecification = cleanLine.includes(':');
+
+        if (isHeader) {
+          return (
+            <h4 
+              key={index} 
+              className="font-label-caps text-[12px] md:text-[14px] uppercase tracking-[0.2em] text-antique-champagne font-semibold mt-4 mb-2 first:mt-0"
+            >
+              {cleanLine}
+            </h4>
+          );
+        }
+
+        if (isSpecification) {
+          const [label, ...valueParts] = cleanLine.split(':');
+          const value = valueParts.join(':').trim();
+          return (
+            <p 
+              key={index} 
+              className="font-body-lg text-[13px] md:text-[15px] leading-relaxed tracking-wide text-white/90 break-words whitespace-normal font-light"
+            >
+              <span className="text-white/40 uppercase font-label-caps text-[11px] md:text-[12px] tracking-[0.1em] mr-2">
+                {label.trim()}:
+              </span>
+              {value}
+            </p>
+          );
+        }
+
+        // Standard body lines format
+        return (
+          <p 
+            key={index} 
+            className="font-body-lg text-[13px] md:text-[15px] leading-relaxed tracking-wide text-white/80 break-words whitespace-normal font-light"
+          >
+            {cleanLine}
+          </p>
+        );
+    })}
+  </div>
+
+  {/* Decorative Fine Theme Accent Line */}
+  <div className="w-12 h-[1px] bg-antique-champagne/30 mt-6" />
+</div>
+
 
 
 
@@ -424,6 +505,75 @@ const handleAddToCart = () => {
 </div>
 
       </div>
+{/* ── HIGH UX INTERACTIVE RELATED PRODUCTS MATRIX SHOWCASE ── */}
+{relatedProducts.length > 0 && (
+  <section className="mt-20 md:mt-32 max-w-7xl mx-auto px-4 md:px-12 border-t border-white/10 pt-16 select-none animate-fadeIn">
+    
+    {/* Section Header Text Metrics */}
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline mb-10 gap-3">
+      <div>
+        <span className="font-label-caps text-[9px] md:text-[10px] tracking-[0.3em] text-antique-champagne uppercase font-bold block mb-1">
+          CURATED STYLING
+        </span>
+        <h2 className="font-display-hero text-[28px] md:text-[36px] uppercase tracking-tighter text-white leading-none">
+          Complete The Archive Fit
+        </h2>
+      </div>
+      <span className="font-label-caps text-[9px] md:text-[10px] tracking-[0.2em] text-white/30 uppercase font-mono">
+        Discovering {relatedProducts.length} Matching Companions
+      </span>
+    </div>
+
+    {/* ⚡ SYNCHRONIZED GRID: Uses your exact 2-column mobile layout to make items look bigger on phones, scaling up to 4 cards on desktop */}
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full">
+      {relatedProducts.map((relProduct) => (
+        <Link 
+          href={`/products/${relProduct.slug}`}
+          key={relProduct.id} 
+          className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
+        >
+          {/* 🚀 THE FIXED 1:1 CONTAINER: Replicates your clean, zero-crop, center-aligned luxury boxes layout */}
+          <div className="relative aspect-square overflow-hidden bg-neutral-950 border border-white/5 group-hover:border-white/20 transition-colors duration-500 w-full mb-3 md:mb-4 flex items-center justify-center p-2">
+            <Image 
+              src={relProduct.images?.[0] || "/product-placeholder.png"} 
+              alt={`${relProduct.name} - Premium Complementary Piece by Shomicore`} 
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              loading="lazy"
+              quality={95}
+              className="object-contain transition-transform duration-[800ms] ease-out group-hover:scale-[1.04]" 
+            />
+
+            {/* Premium visual design anchor accent dot */}
+            <div className="absolute top-3 right-3 md:top-4 md:right-4 h-1.5 w-1.5 rounded-full bg-antique-champagne z-10"></div>
+            
+            {/* Action Hover Slide Reveal Layer */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-6 z-10">
+              <span className="bg-white text-black font-nav-link px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
+                View Archive
+              </span>
+            </div>
+          </div>
+
+          {/* Left-Aligned Luxury Typography metadata tags block */}
+          <h3 className="font-label-caps text-[10px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-1 pr-2 w-full text-left" title={relProduct.name}>
+            {relProduct.name}
+          </h3>
+          
+          <div className="flex justify-between items-baseline gap-2 w-full">
+            <p className="font-body-lg text-[11px] md:text-[13px] text-white/40 italic truncate max-w-[60%] capitalize">
+              {relProduct.parent_category?.toLowerCase().replace(' jewelry', '').replace(' products', '')}
+            </p>
+            <p className="font-body-lg text-[11px] md:text-[14px] text-antique-champagne font-bold whitespace-nowrap">
+              €{parseFloat(relProduct.price).toFixed(2)}
+            </p>
+          </div>
+        </Link>
+      ))}
+    </div>
+
+  </section>
+)}
 
       {/*  CSS Shake Animation */}
       <style >{`

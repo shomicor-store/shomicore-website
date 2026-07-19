@@ -360,7 +360,6 @@ const router = useRouter();
   </div>
 </section>
 {/*  FILTER DRAWER */}
-{/* ── HIGH PERFORMANCE FULLY CONNECTED FILTER DRAWER PANEL ── */}
 <div 
   className={`w-full bg-neutral-950 border-b border-white/10 overflow-hidden transition-all duration-500 ease-in-out ${
     isFilterDrawerOpen ? 'max-h-[1200px] py-8 opacity-100' : 'max-h-0 py-0 opacity-0 pointer-events-none'
@@ -527,17 +526,13 @@ const router = useRouter();
   
   {/* Empty State Data Parameter Check */}
   {products.length === 0 && !loading && (
-    <div className="text-center py-20 border border-white/5 bg-surface-container-low p-8 mx-4 animate-fadeIn">
-      <span className="font-label-caps text-[11px] tracking-[0.3em] text-white/30 block mb-2 uppercase font-bold">NO RESULTS IDENTIFIED</span>
+    <div className="text-center py-20 border border-white/[0.06] bg-gradient-to-b from-[#090909] to-[#121212] backdrop-blur-md p-8 mx-4 animate-fadeIn">
+      <span className="font-label-caps text-[11px] tracking-[0.3em] text-white/30 block mb-2 uppercase font-medium">NO RESULTS IDENTIFIED</span>
       <p className="font-body-lg text-[13px] text-white/50 max-w-sm mx-auto">No handcrafted items match your selected filter matrices. Try resetting an active parameter tag above.</p>
     </div>
   )}
 
-  {/* 🚀 RESPONSIVE CORES FIX: 
-      - grid-cols-3 handles EXACTLY 3 images per row on mobile viewports.
-      - md:grid-cols-3 and lg:grid-cols-4 seamlessly steps up to 4 images per row on desktops.
-      - gap-[3px] ensures microscopic spacing on phones while md:gap-6 adds deep space on large screens. */}
-  <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-[3px] md:gap-6 w-full px-[3px] sm:px-0">
+  <div className="grid grid-cols-3 lg:grid-cols-4 gap-[3px] md:gap-6 w-full px-[3px] sm:px-0 bg-transparent">
 
     {products.map((product, idx) => {
       // Retain layout asymmetry only on desktop sizes to prevent layout disruption on tiny mobile screens
@@ -547,49 +542,70 @@ const router = useRouter();
         <Link 
           href={`/products/${product.slug}`} 
           key={product.id}
-          className={`flex flex-col group cursor-pointer transition-all duration-500 w-full ${
+          className={`flex flex-col group cursor-pointer w-full h-full justify-between ${
             isAsymmetricShift ? 'lg:translate-y-12' : ''
           }`}
         >
-          {/* 🚀 THE ASPECT FIX: Shifted to a wide 4:3 frame to fully display your landscape photography without cutting anything out */}
-          <div className="relative aspect-[4/3] overflow-hidden bg-neutral-950 border border-transparent group-hover:border-white/10 transition-colors duration-500 w-full mb-2 md:mb-4">
-            <Image
-              src={product.images?.[0] || "/product-placeholder.png"} 
-              alt={`${product.name} - Handcrafted Premium Archive by Shomicore`}
-              fill
-              sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 25vw" // Optimizes performance for dense 3-column structures
-              priority={idx < 4} // Instantly pre-loads your top row items to skip loading blurs
-              quality={100} // Zero compression drops for intricate silver filigree details
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" 
-            />
-
-            {/* Design indicator accent dot */}
-            <div className="absolute top-2.5 right-2.5 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10"></div>
+          {/* Top content wrapper containing the image and the fluid header text block */}
+          <div className="flex flex-col w-full">
             
-            {/* Action Hover Slide Reveal Layer (Hidden on mobile for lightning-fast touch targets) */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex items-end justify-center pb-6 z-10">
-              <span className="bg-white text-black font-nav-link px-6 py-2.5 text-[10px] uppercase tracking-[0.3em] font-semibold text-center select-none">
-                View Archive
-              </span>
+            {/* FIXED CANVAS FRAME */}
+            <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#141414] border border-white/[0.03] group-hover:border-antique-champagne/20 transition-all duration-700 w-full mb-3 md:mb-5 flex items-center justify-center p-3">
+              <Image
+                src={product.images?.[0] || "/product-placeholder.png"} 
+                alt={`${product.name} - Handcrafted Premium Archive by Shomicore`}
+                fill
+                sizes="(max-width: 640px) 33vw, (max-width: 1024px) 33vw, 25vw"
+                priority={idx < 4}
+                quality={95}
+                className="object-contain p-1.5 mix-blend-screen transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.04]" 
+              />
+
+              {/* Ambient Background Radial Glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_75%)] pointer-events-none group-hover:opacity-150 transition-opacity duration-700" />
+
+              {/* Design indicator accent dot */}
+              <div className="absolute top-2.5 right-2.5 md:top-4 md:right-4 h-1 md:h-1.5 w-1 md:w-1.5 rounded-full bg-antique-champagne z-10 shadow-[0_0_8px_rgba(230,187,119,0.5)] group-hover:scale-110 transition-transform duration-500"></div>
+              
+              {/* Action Hover Slide Reveal Layer */}
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-500 hidden md:flex items-center justify-center z-10 backdrop-blur-[2px]">
+                <span className="bg-white text-black font-nav-link px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-medium text-center select-none shadow-2xl transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 border border-white">
+                  View Archive
+                </span>
+              </div>
+            </div>
+
+            {/* TEXT HEADERS — COMPLETELY UNBOUNDED VERTICAL FLOW */}
+            <div className="flex flex-col w-full px-1 sm:px-0 text-left gap-2">
+              
+              {/* 
+                CRITICAL FIX: Removed 'truncate' and 'pr-1'.
+                whitespace-normal allows vertical text-wrapping across multiple lines.
+                break-words and hyphens-auto manage custom SKU strings and oversized lettering safely.
+              */}
+              <h3 
+                className="font-label-caps text-[9px] sm:text-[10px] md:text-[12px] uppercase tracking-[0.1em] md:tracking-[0.15em] text-white/90 font-bold leading-snug break-words whitespace-normal block w-full hyphens-auto transition-colors duration-300 group-hover:text-antique-champagne" 
+                title={product.name}
+              >
+                {product.name}
+              </h3>
+              
+              {/* Fine Separator Line */}
+              <div className="relative w-full h-[1px] bg-white/[0.06] overflow-hidden mb-1">
+                <div className="absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-transparent via-antique-champagne/40 to-transparent group-hover:w-full transition-all duration-700 ease-out" />
+              </div>
+
             </div>
           </div>
 
-          {/* Text Specifications Metadata Blocks */}
-          <div className="flex flex-col w-full px-1 sm:px-0">
-            {/* Title Block */}
-            <h3 className="font-label-caps text-[8px] sm:text-[9px] md:text-[11px] uppercase tracking-wider md:tracking-[0.2em] text-white truncate mb-0.5 md:mb-2 pr-1" title={product.name}>
-              {product.name}
-            </h3>
-            
-            {/* Category / Pricing Flex Strip */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline gap-0.5 sm:gap-2 w-full">
-              <p className="font-body-lg text-[9px] sm:text-[11px] md:text-[13px] text-white/40 italic truncate max-w-[85%] sm:max-w-[65%] capitalize">
-                {product.parent_category?.toLowerCase().replace(' products', '').replace(' jewelry', '')}
-              </p>
-              <p className="font-body-lg text-[9px] sm:text-[11px] md:text-[14px] text-antique-champagne font-bold whitespace-nowrap mt-0.5 sm:mt-0">
-                €{parseFloat(product.price).toFixed(2)}
-              </p>
-            </div>
+          {/* BOTTOM METADATA BAR STRIP — LOCKED ON A UNIFIED BASELINE */}
+          <div className="flex justify-between items-center gap-1.5 w-full pt-1 px-1 sm:px-0 mt-auto">
+            <p className="font-body-lg text-[8px] sm:text-[9px] md:text-[10px] text-white/40 tracking-wider uppercase font-medium break-words whitespace-normal leading-normal max-w-[60%]">
+              {product.parent_category?.toLowerCase().replace(' products', '').replace(' jewelry', '')}
+            </p>
+            <p className="font-body-lg text-[10px] sm:text-[11px] md:text-[13px] text-antique-champagne font-semibold tracking-wide whitespace-nowrap bg-white/[0.02] group-hover:bg-white/[0.05] px-1.5 py-0.5 border border-white/[0.05] group-hover:border-antique-champagne/30 rounded-none transition-all duration-500 shrink-0">
+              €{parseFloat(product.price).toFixed(2)}
+            </p>
           </div>
 
         </Link>
@@ -599,15 +615,17 @@ const router = useRouter();
   </div>
 
   {/* Bottom Action Footer Separator */}
-  <div className="mt-12 md:mt-24 flex flex-col items-center">
+  <div className="mt-16 md:mt-28 flex flex-col items-center">
     <div className="h-12 md:h-16 w-px bg-white/10 mb-6 md:mb-8"></div>
-    <button className="font-label-caps text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/40 hover:text-antique-champagne transition-colors cursor-pointer group bg-transparent border-none outline-none focus:outline-none">
+    <button className="font-label-caps text-[10px] md:text-[11px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/50 hover:text-antique-champagne transition-colors cursor-pointer group bg-transparent border-none outline-none focus:outline-none font-medium">
       Continue Discovering
-      <div className="h-px w-0 group-hover:w-full bg-antique-champagne transition-all duration-500 mt-2 mx-auto"></div>
+      <div className="h-[1px] w-0 group-hover:w-12 bg-antique-champagne transition-all duration-500 mt-2.5 mx-auto" />
     </button>
   </div>
 
 </main>
+
+
 
 
         </div>
