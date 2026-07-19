@@ -27,7 +27,7 @@ export default function CheckoutPage() {
 
   const handleOrderSubmission = async (e) => {
     e.preventDefault();
-    if (cart.length === 0) return alert("Your archive bag is currently vacant.");
+    if (cart.length === 0) return alert("Your archive bag is currently empty.");
 
     setIsSubmitting(true);
     
@@ -56,7 +56,7 @@ export default function CheckoutPage() {
       const result = await res.json();
 
       if (result.success) {
-        alert(`Transaction Verified! Order #${result.data.order_number} has been logged.`);
+        alert(` Order successfully submitted!`);
         clearCart();
         router.push('/');
       } else {

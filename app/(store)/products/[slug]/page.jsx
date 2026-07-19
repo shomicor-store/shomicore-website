@@ -86,6 +86,43 @@ const handleAddToCart = () => {
 
   addToCart(product, selectedSize, selectedColor || 'Standard', quantity);
 };
+const handleWhatsAppInquiry = () => {
+  // 1. Mandatory variant check: Force user to pick a size if the product has size options
+  if (product?.available_sizes?.length > 0 && !selectedSize) {
+    setSizeError(true);
+    setTimeout(() => setSizeError(false), 500);
+    return;
+  }
+
+ 
+  const businessPhoneNumber = "923085266965"; 
+
+  const productName = product.name;
+  const productPrice = parseFloat(product.price).toFixed(2);
+  const productSize = selectedSize || "Standard Fit";
+  const productColor = selectedColor || "Standard Finish";
+  
+
+  const currentProductUrl = window.location.href;
+
+
+  const rawMessageText = 
+`Hello Shomicore, I would like to place an order/inquiry for this piece:
+
+⚜️ *Product:* ${productName}
+💶 *Price:* €${productPrice}
+📏 *Size Selected:* ${productSize}
+🎨 *Finish/Color:* ${productColor}
+
+🔗 *Product Link:* ${currentProductUrl}`;
+
+  const encodedText = encodeURIComponent(rawMessageText);
+
+  const whatsappApiUrl = `https://wa.me/923085266965?text=${encodedText}`;
+
+  window.open(whatsappApiUrl, '_blank');
+};
+
 
 
   if (loading) return <div className="p-20 text-center text-white font-mono text-[11px] tracking-widest uppercase bg-matte-charcoal min-h-screen">Loading the Product.......</div>;
@@ -103,9 +140,7 @@ const handleAddToCart = () => {
   <div className="md:sticky md:top-32 flex flex-col gap-4 w-full max-w-[480px] md:max-w-[500px] mx-auto">
     
     {/* Main Primary View Stage Window Container */}
-    {/* 🚀 THE FRAME FIX: 
-        1. Changed from aspect-[4/3] to a perfect aspect-square (1:1) to match your ring photography.
-        2. Added p-4 to give your luxury velvet ring boxes a professional breathing space away from the edges. */}
+
     <div className="relative aspect-square w-full overflow-hidden bg-neutral-950 border border-white/5 shadow-2xl flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
       
@@ -114,10 +149,9 @@ const handleAddToCart = () => {
           src={product.images[activeImageIndex]}
           alt={`${product.name} - Handcrafted Premium Archive View`}
           fill
-          priority // ⚡ Pre-loads above-the-fold media instantly to bypass loading blurs
-          unoptimized={true} // 🚀 THE QUALITY FIX: Disables Next.js default down-sampling compression completely to preserve the raw, crisp high-res quality of your files
-          sizes="(max-width: 768px) 100vw, 50vw"
-          // 🚀 THE CROPPING FIX: Switched from 'object-cover' to 'object-contain' so the FULL image stays completely visible without cutting anything!
+          priority
+          unoptimized={true} 
+        
           className="object-contain transition-transform duration-[800ms] cubic-bezier(0.25, 1, 0.5, 1) hover:scale-[1.03]" 
         />
       ) : (
@@ -136,7 +170,7 @@ const handleAddToCart = () => {
             key={`${imgUrl}-${index}`}
             type="button"
             onClick={() => setActiveImageIndex(index)}
-            // 🚀 THUMBNAIL TRACK CORRECTION: Fixed to aspect-square and applied object-contain so previews don't crop your alternate images
+         
             className={`relative aspect-square w-[68px] sm:w-[80px] overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer focus:outline-none flex-shrink-0 snap-center p-1 flex items-center justify-center ${
               activeImageIndex === index 
                 ? 'border-antique-champagne scale-[1.02] ring-1 ring-antique-champagne/40 bg-black/60 shadow-lg shadow-antique-champagne/5' 
@@ -147,7 +181,7 @@ const handleAddToCart = () => {
               src={imgUrl} 
               alt={`${product.name} structural closeup profile angle ${index + 1}`} 
               fill 
-              unoptimized={true} // 🚀 Maintains matching high definition clarity on small preview rows
+              unoptimized={true} 
               sizes="80px" 
               className="object-contain p-0.5" 
             />
@@ -157,7 +191,7 @@ const handleAddToCart = () => {
     )}
   </div>
 
-  {/* Hidden Global Scrollbar Dismissal Directives Hook */}
+
   <style jsx global>{`
     .scrollbar-none::-webkit-scrollbar { display: none; }
     .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
@@ -364,7 +398,7 @@ const handleAddToCart = () => {
     
     {sizeError && (
       <span className="font-label-caps text-[9px] tracking-widest text-red-500 uppercase mt-2 block font-semibold">
-        * Please pick an operational size configuration before proceeding to checkout modules.
+        * Please pick an operational size  proceeding to checkout.
       </span>
     )}
   </div>
@@ -372,8 +406,11 @@ const handleAddToCart = () => {
 
 
   {/* ── HIGH PERFORMANCE ACTION BUTTONS ARRAYS BLOCK ── */}
-  <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
-    
+
+<div className="flex flex-col gap-3 mt-5 w-full">
+  
+  {/* ROW 1: QUICK E-COMMERCE CART & DIRECT PURCHASE SHORTCUT CHEVRONS */}
+  <div className="flex flex-col sm:flex-row gap-3 w-full">
     {/* Action 1: Standard Cart Append */}
     <button 
       type="button"
@@ -385,7 +422,7 @@ const handleAddToCart = () => {
       </span>
     </button>
 
-    {/* Action 2: Premium Quick Checkout Direct Buy Now Trigger (High Contrast Fill Style) */}
+    {/* Action 2: Premium Quick Checkout Direct Buy Now Trigger */}
     <button 
       type="button"
       onClick={handleBuyNow}
@@ -397,11 +434,27 @@ const handleAddToCart = () => {
     </button>
   </div>
 
+  {/* ROW 2: WHATSAPP DIRECT HIGH-CONVERSION SALES ASSISTANT ANCHOR BUTTON */}
+  <button 
+    type="button"
+    onClick={handleWhatsAppInquiry}
+    className="w-full border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500 text-emerald-400 hover:text-black py-3.5 flex justify-center items-center gap-2 transition-all duration-300 cursor-pointer focus:outline-none font-semibold text-[10px] md:text-[11px] font-nav-link tracking-[0.2em] uppercase"
+  >
+    {/* Clean embedded inline vector graphic scales crisp without installing heavy weight font packages */}
+    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.059 11.948.059c3.173.001 6.155 1.236 8.397 3.479 2.242 2.243 3.475 5.224 3.474 8.393-.003 6.549-5.341 11.838-11.892 11.838-.002 0-.003 0-.005 0-2.001-.001-3.971-.51-5.713-1.478L0 24zm6.545-2.923c1.602.951 3.432 1.452 5.397 1.453H12c5.441 0 9.865-4.382 9.868-9.771.002-2.61-.1015-5.064-2.863-6.932A9.743 9.743 0 0 0 12 1.134c-5.441 0-9.865 4.382-9.868 9.771-.001 2.083.53 4.113 1.538 5.9l-.423 1.543-.45 1.644 1.683-.441 1.622-.425zM17.411 14.5c-.3-.15-1.776-.876-2.046-.975-.27-.099-.465-.15-.66.15-.195.3-.75.945-.921 1.125-.171.18-.345.21-.645.06-.3-.15-1.266-.466-2.412-1.485-.892-.795-1.493-1.777-1.668-2.077-.174-.3-.018-.463.132-.612.135-.133.3-.35.45-.525.15-.174.2-.299.3-.499.1-.2.05-.375-.025-.525-.075-.15-.66-1.59-.9-2.174-.234-.572-.493-.494-.66-.502-.158-.008-.34-.011-.52-.011-.18 0-.476.067-.726.39-.25.322-.953.932-.953 2.273s.975 2.63 1.11 2.81c.135.18 1.92 2.931 4.653 4.113.65.28 1.157.446 1.554.573.654.207 1.25.177 1.719.089.524-.099 1.62-.663 1.849-1.275.23-.611.23-1.137.16-1.248-.07-.11-.27-.16-.57-.31z" />
+    </svg>
+    <span>Customise or shop WhatsApp</span>
+  </button>
+  
+</div>
+
+
 {/* Accordion Layer Info */}
 <div className="mt-8 pt-6 border-t border-white/5">
   <div className="flex flex-col gap-2">
     <h4 className="font-label-caps text-[9px] tracking-[0.2em] text-antique-champagne uppercase">
-      Artisanal Process
+      Note
     </h4>
     <p className="font-body-lg text-white/50 text-[12px] leading-relaxed">
       Every piece inside the Shomicor archive is individually handled and handcrafted by master craftsmen.
@@ -532,7 +585,6 @@ const handleAddToCart = () => {
           key={relProduct.id} 
           className="group flex flex-col cursor-pointer transition-all duration-300 w-full"
         >
-          {/* 🚀 THE FIXED 1:1 CONTAINER: Replicates your clean, zero-crop, center-aligned luxury boxes layout */}
           <div className="relative aspect-square overflow-hidden bg-neutral-950 border border-white/5 group-hover:border-white/20 transition-colors duration-500 w-full mb-3 md:mb-4 flex items-center justify-center p-2">
             <Image 
               src={relProduct.images?.[0] || "/product-placeholder.png"} 
