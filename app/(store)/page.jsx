@@ -209,40 +209,7 @@ export default function Home() {
   {/* Smooth horizontal scrolling track with robust spacing layout constraints */}
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
-    {/* ALL BUTTON FILTER */}
-    <button
-      onClick={() => setActiveArtificialSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
-    >
-      {/* INCREASED IMAGE BOX FRAME: Expanded from w-28/h-28 up to w-32/h-32 (mobile) and w-40/h-40 (desktop) */}
-      <div 
-        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
-          ${activeArtificialSub === 'ALL' 
-            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
-            : 'border-white/[0.08] group-hover:border-white/30'
-          }`}
-      >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
-          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          ALL
-        </span>
-        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeArtificialSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
-        />
-      </div>
-      
-      {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
-      <div className="flex flex-col items-center gap-1.5 w-full">
-        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
-          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          View All
-        </span>
-        {/* Sleek structural bottom track indicator */}
-        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeArtificialSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
-      </div>
-    </button>
+
 
     {/* SUB CATEGORY LIST MAP */}
     {subCategories
@@ -397,41 +364,6 @@ export default function Home() {
   
 
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
-    
-    {/* ALL BUTTON FILTER */}
-    <button
-      onClick={() => setActiveSilverSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
-    >
-      {/* INCREASED IMAGE BOX FRAME: Expanded base scale to w-32/h-32 up to w-40/h-40 on large screens */}
-      <div 
-        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
-          ${activeSilverSub === 'ALL' 
-            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
-            : 'border-white/[0.08] group-hover:border-white/30'
-          }`}
-      >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
-          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          ALL
-        </span>
-        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeSilverSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
-        />
-      </div>
-      
-      {/* CLEAN HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
-      <div className="flex flex-col items-center gap-1.5 w-full">
-        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
-          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          View All
-        </span>
-        {/* Sleek structural underline to replace bulky outlines */}
-        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeSilverSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
-      </div>
-    </button>
 
     {/* SUB CATEGORY LIST MAP */}
     {subCategories
@@ -582,41 +514,7 @@ export default function Home() {
   
   {/* Smooth horizontal scrolling track with uniform layout constraints */}
   <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
-    
-    {/* ALL BUTTON FILTER */}
-    <button
-      onClick={() => setActiveLeatherSub('ALL')}
-      className="snap-center flex flex-col items-center gap-3.5 text-center group outline-none select-none min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
-    >
-      {/* LARGER IMAGE BOX FRAME: Scaled up to w-32/h-32 (mobile) and w-40/h-40 (desktop) */}
-      <div 
-        className={`relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 border flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] bg-gradient-to-b from-[#0a0a0a] to-[#121212]
-          ${activeLeatherSub === 'ALL' 
-            ? 'border-antique-champagne shadow-[0_0_20px_rgba(230,187,119,0.15)]' 
-            : 'border-white/[0.08] group-hover:border-white/30'
-          }`}
-      >
-        <span className={`font-label-caps text-xs md:text-sm tracking-[0.3em] font-medium transition-colors duration-500
-          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          ALL
-        </span>
-        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
-          ${activeLeatherSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
-        />
-      </div>
-      
-      {/* HIGH CONTRAST TYPOGRAPHY COLOR OVERHAUL */}
-      <div className="flex flex-col items-center gap-1.5 w-full">
-        <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.2em] uppercase transition-colors duration-500 font-medium
-          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white group-hover:text-antique-champagne'}`}
-        >
-          View All
-        </span>
-        {/* Sleek structural underline active track */}
-        <div className={`h-[1px] bg-antique-champagne transition-all duration-500 ease-out ${activeLeatherSub === 'ALL' ? 'w-8' : 'w-0 group-hover:w-4'}`} />
-      </div>
-    </button>
+
 
     {/* SUB CATEGORY LIST MAP */}
     {subCategories
