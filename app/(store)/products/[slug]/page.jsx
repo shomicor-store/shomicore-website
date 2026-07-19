@@ -26,6 +26,8 @@ const { addToCart, setIsCartOpen } = useCart();
   // UX Error & Animation Flags
   const [sizeError, setSizeError] = useState(false);
 
+const [lightboxImage, setLightboxImage] = useState(null);
+
   useEffect(() => {
     if (!slug) return;
     const loadProductData = async () => {
@@ -54,25 +56,19 @@ const handleBuyNow = () => {
     setTimeout(() => setSizeError(false), 500);
     return;
   }
-
-  // 2. Dispatch data item cleanly to global state matrices
+ 
   addToCart(product, selectedSize, selectedColor || 'Standard', quantity);
-
-  // 3. Immediately slide closed any structural visual background cart drawer overlays
   setIsCartOpen(false);
-
-  // 4. Force browser window redirect directly to checkout processing form paths
   router.push('/checkout');
 };
 const handleAddToCart = () => {
-  // Enforce required size verification rule
+
   if (product?.available_sizes?.length > 0 && !selectedSize) {
     setSizeError(true);
     setTimeout(() => setSizeError(false), 500);
     return;
   }
 
-  // ⚡ DISPATCH LIVE DATA: Safely fires structured metrics into your persistent state machine
   addToCart(product, selectedSize, selectedColor || 'Standard', quantity);
 };
 
@@ -88,11 +84,9 @@ const handleAddToCart = () => {
 
  {/* Left Column: Premium Interactive High-Res Media Gallery Stage */}
 <div className="w-full flex justify-center items-start relative">
-  {/* 🚀 THE SIZE CORRECTION: Added absolute max-w boundaries to decrease overall layout heights across mobile and desktop windows */}
   <div className="md:sticky md:top-32 flex flex-col gap-3 md:gap-5 w-full max-w-[540px] md:max-w-xl mx-auto">
     
     {/* Main Primary View Stage Window Container */}
-    {/* 🚀 THE FRAME FIX: Altered container layout from vertical [3/4] to horizontal [4/3] to match your ring photography shape precisely */}
     <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-950 border border-white/5 group shadow-2xl">
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none z-10 mix-blend-multiply"></div>
       
@@ -101,10 +95,10 @@ const handleAddToCart = () => {
           src={product.images[activeImageIndex]}
           alt={`${product.name} - Handcrafted Premium Archive View`}
           fill
-          priority // ⚡ Pre-loads above-the-fold media instantly to skip quality blurs
+          priority 
           sizes="(max-width: 768px) 100vw, 50vw"
-          quality={100} // ⚡ Maximum Texture Definition: Prevents compression artifacts from muddying fine silver details
-          className="object-cover transition-transform duration-[1200ms] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-[1.02]" // ⚡ object-cover fits perfectly with zero edge cropping because ratios match perfectly now!
+          quality={100} 
+          className="object-cover transition-transform duration-[1200ms] cubic-bezier(0.25, 1, 0.5, 1) group-hover:scale-[1.02]" 
         />
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-neutral-900 text-white/20">
@@ -116,14 +110,14 @@ const handleAddToCart = () => {
 
     {/* Carousel Navigation Thumbnails Grid Frame Layout */}
     {product.images && product.images.length > 1 && (
-      /* 🚀 THUMBNAIL LAYOUT MATRIX CORRECTION: Max-w bounds protect thumbnails from blowing up on larger resolution screens */
+
       <div className="flex gap-2 w-full overflow-x-auto scrollbar-none snap-x snap-mandatory pb-1 max-w-full">
         {product.images.map((imgUrl, index) => (
           <button 
             key={`${imgUrl}-${index}`}
             type="button"
             onClick={() => setActiveImageIndex(index)}
-            // 🚀 THE THUMBNAIL FIXED BOUNDS: Set static width parameters and matching 4:3 shapes so previews don't crop your second chart card!
+   
             className={`relative aspect-[4/3] w-[75px] sm:w-[90px] overflow-hidden bg-neutral-900 border transition-all duration-300 cursor-pointer浏览 focus:outline-none flex-shrink-0 snap-center ${
               activeImageIndex === index 
                 ? 'border-antique-champagne scale-[1.02] ring-1 ring-antique-champagne/40 bg-black/60 shadow-lg shadow-antique-champagne/5' 
@@ -144,7 +138,6 @@ const handleAddToCart = () => {
     )}
   </div>
 
-  {/* Hidden Scrollbar Cleaner Direction Hook */}
   <style >{`
     .scrollbar-none::-webkit-scrollbar { display: none; }
     .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
@@ -171,9 +164,16 @@ const handleAddToCart = () => {
 
   <div className="w-12 h-[1px] bg-white/10 mb-5 md:mb-6"></div>
 
-  <p className="font-body-lg text-white/70 mb-6 md:mb-8 leading-relaxed font-light text-[13px] md:text-[14px]">
-    {product.description}
-  </p>
+
+{/* Code snippet example for your live storefront description display tag */}
+{/* Code snippet example for your live storefront description display tag */}
+<p className="font-body-lg text-white/70 text-[13px] md:text-[14px] leading-relaxed font-light whitespace-pre-wrap">
+  {product.description}
+</p>
+
+
+
+
 
   {/* 1. Dynamic Color Variation Tags Output */}
   {product.colors && product.colors.length > 0 && (
@@ -200,48 +200,56 @@ const handleAddToCart = () => {
     </div>
   )}
 
-  {/* 2. Context-Aware Size Variant Selection Hub with Complete International Table Display */}
-  {product.available_sizes && product.available_sizes.length > 0 && (
-    <div className={`mb-6 md:mb-8 w-full ${sizeError ? 'animate-shake' : ''}`}>
-      <div className="flex justify-between items-baseline mb-3 border-b border-white/5 pb-1.5">
-        <h3 className={`font-label-caps text-[9px] md:text-[10px] tracking-[0.2em] uppercase ${sizeError ? 'text-error font-bold' : 'text-white/40'}`}>
-          {sizeError ? 'Attention: Size Selection Required' : 'Select Size Fit:'} 
-          {selectedSize && <span className="text-antique-champagne font-bold ml-1">[{selectedSize} USA / Canada]</span>}
-        </h3>
-        <span className="font-label-caps text-[8px] text-antique-champagne/40 uppercase font-mono">
-          {product.parent_category === 'Silver Jewelry' ? 'Global Conversion Grid Active' : 'Standard Scale'}
-        </span>
-      </div>
-      
-      {product.parent_category !== 'Silver Jewelry' ? (
-        /* Regular Standard Buttons Row View */
-        <div className="flex flex-wrap gap-1.5">
-          {product.available_sizes.map((size) => (
+{/* 2. Context-Aware Size Variant Selection Hub with Complete International Table Display */}
+{product.available_sizes && product.available_sizes.length > 0 && (
+  <div className={`mb-6 md:mb-8 w-full ${sizeError ? 'animate-shake' : ''}`}>
+    <div className="flex justify-between items-baseline mb-3 border-b border-white/10 pb-2">
+      <h3 className={`font-label-caps text-[10px] md:text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 ${sizeError ? 'text-red-500 font-bold' : 'text-white/50'}`}>
+        {sizeError ? 'Selection Required: Choose a Size Option' : 'Select Size Fit:'} 
+ 
+      </h3>
+      <span className="font-label-caps text-[10px] text-antique-champagne/50 uppercase font-mono tracking-wider">
+        {product.parent_category === 'Silver Jewelry' ? 'Available Sizes (Scroll for more Sizes)' : 'Standard Sizes'}
+      </span>
+    </div>
+    
+    {product.parent_category !== 'Silver Jewelry' ? (
+      /* Regular Standard Buttons Row View */
+      <div className={`flex flex-wrap gap-2 p-1 transition-all duration-300 ${sizeError ? 'bg-red-500/5 border border-red-500/20' : 'border border-transparent'}`}>
+        {product.available_sizes.map((size) => {
+          const isSelected = selectedSize === size;
+          return (
             <button
               key={size}
               type="button"
               onClick={() => { setSelectedSize(size); setSizeError(false); }}
-              className={`min-w-[40px] h-[36px] px-2.5 flex items-center justify-center transition-all border cursor-pointer focus:outline-none font-label-caps text-[9px] tracking-widest uppercase ${
-                selectedSize === size ? 'bg-antique-champagne text-black border-antique-champagne font-bold' : 'bg-transparent border-white/10 text-white/60 hover:border-white/30'
-              }`}
+              className={`min-w-[44px] h-[40px] px-3 flex items-center justify-center transition-all duration-300 border focus:outline-none font-label-caps text-[10px] tracking-widest uppercase rounded-none select-none cursor-pointer
+                ${isSelected 
+                  ? 'bg-antique-champagne text-black border-antique-champagne font-black shadow-lg shadow-antique-champagne/10 scale-102 z-10' 
+                  : sizeError
+                    ? 'bg-transparent border-red-500/30 text-red-400 hover:border-red-500 hover:text-white'
+                    : 'bg-transparent border-white/10 text-white/60 hover:border-white/40 hover:text-white'
+                }`}
             >
               {size}
             </button>
-          ))}
+          );
+        })}
+      </div>
+    ) : (
+      <div className={`flex flex-col w-full border bg-neutral-950/40 p-2 max-h-[300px] overflow-y-auto scrollbar-none transition-all duration-300 ${sizeError ? 'border-red-500/30 bg-red-500/[0.02]' : 'border-white/10'}`}>
+        
+        {/* Table Column Labels */}
+        <div className="grid grid-cols-5 text-center text-[9px] font-label-caps text-white/40 tracking-[0.2em] border-b border-white/10 pb-2 mb-2 uppercase font-bold sticky top-0 bg-neutral-950/80 backdrop-blur-sm z-20">
+          <span>US / CA</span>
+          <span>UK</span>
+          <span>FRANCE</span>
+          <span>GERMANY</span>
+          <span>DIAMETER</span>
         </div>
-      ) : (
-        /* ⚡ ADVANCED CONVERSION TABLE LOOKUP FOR CONSUMERS */
-        <div className="flex flex-col gap-1 w-full border border-white/5 bg-black/20 p-2 max-h-[300px] overflow-y-auto scrollbar-none">
-          {/* Table Column Labels */}
-          <div className="grid grid-cols-5 text-center text-[8px] font-label-caps text-white/30 tracking-widest border-b border-white/5 pb-1.5 mb-1.5 uppercase">
-            <span>USA / Canada</span>
-            <span>UK</span>
-            <span>FRANCE</span>
-            <span>GERMANY</span>
-            <span>DIAMETER</span>
-          </div>
 
-          {/* Display only the sizes that the admin checked during product upload */}
+        {/* Dynamic Matrix Sizing Iteration */}
+        <div className="flex flex-col gap-1 w-full">
           {ringChartMatrix
             .filter(row => product.available_sizes.includes(row.us))
             .map((row) => {
@@ -251,24 +259,36 @@ const handleAddToCart = () => {
                   type="button"
                   key={row.us}
                   onClick={() => { setSelectedSize(row.us); setSizeError(false); }}
-                  className={`grid grid-cols-5 items-center py-2.5 text-center font-mono text-[12px] border transition-all cursor-pointer focus:outline-none ${
-                    isSelected 
-                      ? 'bg-antique-champagne text-black border-antique-champagne font-bold shadow-md shadow-antique-champagne/5' 
-                      : 'bg-transparent border-transparent text-white/70 hover:border-white/10 hover:text-white'
-                  }`}
+                  className={`grid grid-cols-5 items-center py-3 text-center font-mono text-[13px] border rounded-none transition-all duration-200 focus:outline-none select-none cursor-pointer
+                    ${isSelected 
+                      ? 'bg-antique-champagne text-black border-antique-champagne font-black shadow-lg shadow-antique-champagne/10 scale-[1.01] z-10' 
+                      : sizeError
+                        ? 'bg-transparent border-transparent text-red-300/70 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400'
+                        : 'bg-transparent border-transparent text-white/60 hover:bg-white/[0.03] hover:border-white/10 hover:text-white'
+                    }`}
                 >
-                  <span>{row.us}</span>
-                  <span>{row.uk}</span>
-                  <span>{row.fr}</span>
-                  <span>{row.de}</span>
-                  <span className={`text-[10px] ${isSelected ? 'text-black/60' : 'text-antique-champagne/60'}`}>{row.mm}</span>
+                  <span className={`font-bold ${isSelected ? 'text-black' : 'text-white'}`}>{row.us}</span>
+                  <span className={isSelected ? 'text-black' : 'text-white/60'}>{row.uk}</span>
+                  <span className={isSelected ? 'text-black' : 'text-white/60'}>{row.fr}</span>
+                  <span className={isSelected ? 'text-black' : 'text-white/60'}>{row.de}</span>
+                  <span className={`text-[11px] font-medium ${isSelected ? 'text-black/70' : 'text-antique-champagne/70 font-semibold'}`}>
+                    {row.mm}
+                  </span>
                 </button>
               );
           })}
         </div>
-      )}
-    </div>
-  )}
+      </div>
+    )}
+    
+    {sizeError && (
+      <span className="font-label-caps text-[9px] tracking-widest text-red-500 uppercase mt-2 block font-semibold">
+        * Please pick an operational size configuration before proceeding to checkout modules.
+      </span>
+    )}
+  </div>
+)}
+
 
   {/* ── HIGH PERFORMANCE ACTION BUTTONS ARRAYS BLOCK ── */}
   <div className="flex flex-col sm:flex-row gap-3 mt-4 w-full">
@@ -296,23 +316,117 @@ const handleAddToCart = () => {
     </button>
   </div>
 
-  {/* Accordion Layer Info */}
-  <div className="mt-8 pt-6 border-t border-white/5">
-    <div className="flex flex-col gap-2">
-      <h4 className="font-label-caps text-[9px] tracking-[0.2em] text-antique-champagne uppercase">
-        Artisanal Process
+{/* Accordion Layer Info */}
+<div className="mt-8 pt-6 border-t border-white/5">
+  <div className="flex flex-col gap-2">
+    <h4 className="font-label-caps text-[9px] tracking-[0.2em] text-antique-champagne uppercase">
+      Artisanal Process
+    </h4>
+    <p className="font-body-lg text-white/50 text-[12px] leading-relaxed">
+      Every piece inside the Shomicor archive is individually handled and handcrafted by master craftsmen.
+    </p>
+  </div>
+</div>
+
+{/* Ring Sizes image shown */}
+{product.parent_category === 'Silver Jewelry' && (
+  <div className="mt-8 pt-8 border-t border-white/10 flex flex-col gap-6 w-full animate-fade-in">
+    
+    {/* Section Meta Title */}
+    <div className="flex flex-col gap-1">
+      <h4 className="font-label-caps text-[10px] tracking-[0.25em] text-antique-champagne uppercase font-bold">
+        Measurement &amp; Fitting Resource
       </h4>
-      <p className="font-body-lg text-white/50 text-[12px] leading-relaxed">
-        Every piece inside the Shomicore archive is individually handled and handcrafted by master craftsmen.
+      <p className="font-body-lg text-white/40 text-[11px] uppercase tracking-wider">
+        Reference blueprints for optimal finger profiling
       </p>
     </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      
+      {/* CARD 1: HOW TO MEASURE INSTRUCTIONS */}
+      <div className="flex flex-col gap-2.5 group">
+        <div 
+          onClick={() => setLightboxImage("/ring_size_guide.png")}
+          className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-950 border border-white/10 group-hover:border-white/20 transition-colors duration-300 cursor-zoom-in"
+        >
+          <Image 
+            src="/ring_size_guide.png" 
+            alt="Step-by-step instructions on how to measure your finger for Shomicor rings"
+            fill
+            sizes="(max-width: 768px) 100vw, 25vw"
+            loading="lazy"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+          />
+        </div>
+        <span className="font-label-caps text-[9px] tracking-widest text-white/40 uppercase font-medium pl-0.5 group-hover:text-white/80 transition-colors">
+          How to Measure Your Finger for a Perfect Fit Ring
+        </span>
+      </div>
+
+      {/* CARD 2: INTERNATIONAL SIZE REFERENCE GUIDE */}
+      <div className="flex flex-col gap-2.5 group">
+        <div 
+          onClick={() => setLightboxImage("/ring_sizes.png")}
+          className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-950 border border-white/10 group-hover:border-white/20 transition-colors duration-300 cursor-zoom-in"
+        >
+          <Image 
+            src="/ring_sizes.png" 
+            alt="International ring size conversion scale chart diagram"
+            fill
+            sizes="(max-width: 768px) 100vw, 25vw"
+            loading="lazy"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-102"
+          />
+        </div>
+        <span className="font-label-caps text-[9px] tracking-widest text-white/40 uppercase font-medium pl-0.5 group-hover:text-white/80 transition-colors">
+          All International Ring Size Conversion Reference Chart
+        </span>
+      </div>
+
+    </div>
+
+    {/* ── LUXURY LIGHTBOX MODAL OVERLAY EXTENSION ── */}
+    {lightboxImage && (
+      <div 
+        onClick={() => setLightboxImage(null)}
+        className="fixed inset-0 bg-black/90 backdrop-blur-md z-[200] flex items-center justify-center p-4 md:p-12 cursor-zoom-out animate-fade-in select-none"
+      >
+        {/* Close Button UI Shortcut element */}
+        <button 
+          onClick={() => setLightboxImage(null)}
+          className="absolute top-6 right-6 text-white/40 hover:text-white font-label-caps text-[10px] tracking-widest uppercase bg-transparent border-none focus:outline-none cursor-pointer"
+        >
+          [ Click Anywhere To Close ]
+        </button>
+        
+        {/* Center Target Scaled Frame */}
+        <div 
+          onClick={(e) => e.stopPropagation()} 
+          className="relative w-full max-w-4xl h-[70vh] max-h-[600px] border border-white/10 bg-neutral-950 p-2"
+        >
+          <Image 
+            src={lightboxImage} 
+            alt="Expanded Size Resource View" 
+            fill
+            sizes="100vw"
+            priority
+            className="object-contain"
+          />
+        </div>
+      </div>
+    )}
+
   </div>
+)}
+
+
 </div>
 
       </div>
 
-      {/* Global CSS Shake Animation Keyframes Injection block */}
-      <style jsx global>{`
+      {/*  CSS Shake Animation */}
+      <style >{`
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           20%, 60% { transform: translateX(-4px); }

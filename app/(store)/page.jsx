@@ -3,36 +3,29 @@ import { useState, useEffect } from "react";
 import Link from 'next/link';
 import Image from "next/image";
 
-
-
-// export const revalidate = 60; // Regenerates the cached page smoothly in the background every 60 seconds
 export default function Home() {
   
 
 
-  // Database Data States
+  // Database Data 
   const [products, setProducts] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Active Subcategory Tracking Filters per Section
-  // This lets the user click a subcategory in one section without breaking the other sections!
   const [activeArtificialSub, setActiveArtificialSub] = useState('ALL');
   const [activeSilverSub, setActiveSilverSub] = useState('ALL');
   const [activeLeatherSub, setActiveLeatherSub] = useState('ALL');
 
-  // Fetch all initial storefront data from your backend API endpoints on load
   useEffect(() => {
     const fetchHomeStoreData = async () => {
       try {
         setLoading(true);
         
-        // 1. Fetch all store products
+        //  Fetch all store products
         const productsResponse = await fetch('/api/products');
         const productsResult = await productsResponse.json();
         if (productsResult.success) setProducts(productsResult.data);
 
-        // 2. Fetch all dynamic subcategories created in your admin panel
         const subCategoriesResponse = await fetch('/api/sub-categories');
         const subCategoriesResult = await subCategoriesResponse.json();
         if (subCategoriesResult.success) setSubCategories(subCategoriesResult.data);
@@ -47,7 +40,6 @@ export default function Home() {
     fetchHomeStoreData();
   }, []);
 
-  // Smooth Scroll Helper Function for your Main Navigation Links
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -210,33 +202,34 @@ export default function Home() {
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
 
-    {/* Dynamic Sub-Category Artificial Jewelry */}
- <div className="w-full bg-black/40 border-y border-white/10 mb-8 py-5">
-  <div className="px-4 md:px-12 flex items-center gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
+  
+{/* Dynamic Sub-Category Artificial Jewelry */}
+<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+  <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
     <button
       onClick={() => setActiveArtificialSub('ALL')}
-      className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
     >
       <div 
-        className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
           ${activeArtificialSub === 'ALL' 
-            ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-            : 'border-white/10 group-hover:border-white/30'
+            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+            : 'border-white/10 group-hover:border-white/40'
           }`}
       >
-        <span className={`font-label-caps text-[11px] md:text-xs tracking-[0.2em] font-bold transition-colors duration-300
-          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white/30 group-hover:text-white/80'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
+          ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
         >
           ALL
         </span>
-        <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-          ${activeArtificialSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
+        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+          ${activeArtificialSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
         />
       </div>
       
-      <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300
-        ${activeArtificialSub === 'ALL' ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
+        ${activeArtificialSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
       >
         VIEW ALL
       </span>
@@ -248,40 +241,41 @@ export default function Home() {
         <button
           key={sub.id}
           onClick={() => setActiveArtificialSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
         >
           <div 
-            className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out
+            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900/60 transition-all duration-500 ease-out flex items-center justify-center
               ${activeArtificialSub === sub.id 
-                ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-                : 'border-white/10 group-hover:border-white/30'
+                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+                : 'border-white/10 group-hover:border-white/40'
               }`}
           >
             <Image
               src={sub.image_url || "/placeholder-circle.jpg"}
               alt={`${sub.name} Collection`}
               fill
-              sizes="(max-width: 768px) 64px, 80px"
-              className={`object-cover transition-all duration-700 ease-out
-                ${activeArtificialSub === sub.id 
-                  ? 'grayscale-0 scale-105' 
-                  : 'grayscale group-hover:grayscale-0 group-hover:scale-110'
-                }`}
+              sizes="(max-width: 768px) 112px, 144px"
+              className={`object-contain p-2.5 transition-all duration-700 ease-out mix-blend-lighten ${
+                activeArtificialSub === sub.id 
+                  ? 'scale-105' 
+                  : 'group-hover:scale-115'
+              }`}
             />
-            <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-              ${activeArtificialSub === sub.id ? 'border-antique-champagne/20' : 'border-white/5'}`} 
+            <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+              ${activeArtificialSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
             />
           </div>
-          
-          <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300 max-w-[80px] sm:max-w-[100px] whitespace-normal break-words leading-tight
-            ${activeArtificialSub === sub.id ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
+            ${activeArtificialSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
           >
             {sub.name}
           </span>
         </button>
     ))}
+
   </div>
 </div>
+
 
 
  <div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">
@@ -346,33 +340,39 @@ export default function Home() {
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
 
-    {/* Dynamic Sub-Category */}
-<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-5">
-  <div className="px-4 md:px-12 flex items-center gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
+   {/* Dynamic Sub-Category */}
+<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+  <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
     <button
       onClick={() => setActiveSilverSub('ALL')}
-      className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
     >
+      {/* 
+        MAXIMUM CONTMPORARY IMPACT SCALE OVERHAUL:
+        Upgraded grid cell sizing dimensions to ultra-prominent square proportions
+        (w-28 h-28 on mobile scaling up dynamically to w-36 h-36 on professional desktop layouts).
+      */}
       <div 
-        className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
           ${activeSilverSub === 'ALL' 
-            ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-            : 'border-white/10 group-hover:border-white/30'
+            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+            : 'border-white/10 group-hover:border-white/40'
           }`}
       >
-        <span className={`font-label-caps text-[11px] md:text-xs tracking-[0.2em] font-bold transition-colors duration-300
-          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white/30 group-hover:text-white/80'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
+          ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
         >
           ALL
         </span>
-        <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-          ${activeSilverSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
+        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+          ${activeSilverSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
         />
       </div>
       
-      <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300
-        ${activeSilverSub === 'ALL' ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+      {/* Large readable metadata tags mapping */}
+      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
+        ${activeSilverSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
       >
         VIEW ALL
       </span>
@@ -384,34 +384,34 @@ export default function Home() {
         <button
           key={sub.id}
           onClick={() => setActiveSilverSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
         >
-       <div 
-  className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out
-    ${activeSilverSub === sub.id 
-      ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-      : 'border-white/10 group-hover:border-white/30'
-    }`}
->
-  <Image
-    src={sub.image_url || "/assets/placeholder-circle.jpg"}
-    alt={`${sub.name} Collection`}
-    fill
-    sizes="(max-width: 768px) 64px, 80px"
-    className={`object-cover transition-all duration-700 ease-out ${
-      activeSilverSub === sub.id 
-        ? 'grayscale-0 scale-105' 
-        : 'grayscale group-hover:grayscale-0 group-hover:scale-110'
-    }`}
-  />
-  <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-    ${activeSilverSub === sub.id ? 'border-antique-champagne/20' : 'border-white/5'}`} 
-  />
-</div>
-
+  
+          <div 
+            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out flex items-center justify-center
+              ${activeSilverSub === sub.id 
+                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+                : 'border-white/10 group-hover:border-white/40'
+              }`}
+          >
+            <Image
+              src={sub.image_url || "/assets/placeholder-circle.jpg"}
+              alt={`${sub.name} Collection`}
+              fill
+              sizes="(max-width: 768px) 112px, 144px"
+              className={`object-contain p-2.5 transition-all duration-700 ease-out ${
+                activeSilverSub === sub.id 
+                  ? 'scale-105' 
+                  : 'group-hover:scale-115'
+              }`}
+            />
+            <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+              ${activeSilverSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
+            />
+          </div>
           
-          <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300 max-w-[80px] sm:max-w-[100px] whitespace-normal break-words leading-tight
-            ${activeSilverSub === sub.id ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
+            ${activeSilverSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
           >
             {sub.name}
           </span>
@@ -419,6 +419,7 @@ export default function Home() {
     ))}
   </div>
 </div>
+
 
 
 {/* Filtered Grid Logic for Silver Products */}
@@ -477,33 +478,33 @@ export default function Home() {
       </h2>
       <div className="w-6 h-[1px] bg-antique-champagne mt-2"></div>
     </div>
-<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-5">
-
-  <div className="px-4 md:px-12 flex items-center gap-3 sm:gap-4 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
+{/* Dynamic Sub-Category Leather Products */}
+<div className="w-full bg-black/40 border-y border-white/10 mb-8 py-6">
+  <div className="px-4 md:px-12 flex items-center gap-4 sm:gap-6 overflow-x-auto md:overflow-x-visible scrollbar-none whitespace-nowrap md:whitespace-normal snap-x snap-mandatory md:flex-wrap md:justify-center">
     
     <button
       onClick={() => setActiveLeatherSub('ALL')}
-      className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+      className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
     >
       <div 
-        className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
+        className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border flex items-center justify-center transition-all duration-500 ease-out bg-neutral-950
           ${activeLeatherSub === 'ALL' 
-            ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-            : 'border-white/10 group-hover:border-white/30'
+            ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+            : 'border-white/10 group-hover:border-white/40'
           }`}
       >
-        <span className={`font-label-caps text-[11px] md:text-xs tracking-[0.2em] font-bold transition-colors duration-300
-          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white/30 group-hover:text-white/80'}`}
+        <span className={`font-label-caps text-xs md:text-sm tracking-[0.25em] font-black transition-colors duration-300
+          ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
         >
           ALL
         </span>
-        <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-          ${activeLeatherSub === 'ALL' ? 'border-antique-champagne/20' : 'border-transparent'}`} 
+        <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+          ${activeLeatherSub === 'ALL' ? 'border-antique-champagne/30' : 'border-transparent'}`} 
         />
       </div>
       
-      <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300
-        ${activeLeatherSub === 'ALL' ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+      <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 font-bold
+        ${activeLeatherSub === 'ALL' ? 'text-antique-champagne' : 'text-white/40 group-hover:text-white'}`}
       >
         VIEW ALL
       </span>
@@ -515,33 +516,33 @@ export default function Home() {
         <button
           key={sub.id}
           onClick={() => setActiveLeatherSub(sub.id)}
-          className="snap-center flex flex-col items-center gap-2.5 text-center group outline-none select-none min-w-[80px] sm:min-w-[95px] md:min-w-[110px] cursor-pointer"
+          className="snap-center flex flex-col items-center gap-3 text-center group outline-none select-none min-w-[130px] sm:min-w-[150px] md:min-w-[170px] cursor-pointer"
         >
           <div 
-            className={`relative w-14 h-[74px] sm:w-16 sm:h-[85px] md:w-20 md:h-[105px] border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out
+            className={`relative w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border overflow-hidden bg-neutral-900 transition-all duration-500 ease-out flex items-center justify-center
               ${activeLeatherSub === sub.id 
-                ? 'border-antique-champagne shadow-lg shadow-antique-champagne/[0.04]' 
-                : 'border-white/10 group-hover:border-white/30'
+                ? 'border-antique-champagne shadow-xl shadow-antique-champagne/[0.12]' 
+                : 'border-white/10 group-hover:border-white/40'
               }`}
           >
             <Image
               src={sub.image_url || "/placeholder-circle.jpg"}
               alt={`${sub.name} Collection`}
               fill
-              sizes="(max-width: 768px) 64px, 80px"
-              className={`object-cover transition-all duration-700 ease-out
+              sizes="(max-width: 768px) 112px, 144px"
+              className={`object-contain p-2.5 transition-all duration-700 ease-out
                 ${activeLeatherSub === sub.id 
-                  ? 'grayscale-0 scale-105' 
-                  : 'grayscale group-hover:grayscale-0 group-hover:scale-110'
+                  ? 'scale-105' 
+                  : 'group-hover:scale-115'
                 }`}
             />
-            <div className={`absolute inset-1 border pointer-events-none transition-colors duration-500
-              ${activeLeatherSub === sub.id ? 'border-antique-champagne/20' : 'border-white/5'}`} 
+            <div className={`absolute inset-1.5 border pointer-events-none transition-colors duration-500
+              ${activeLeatherSub === sub.id ? 'border-antique-champagne/30' : 'border-white/5'}`} 
             />
           </div>
           
-          <span className={`font-nav-link text-[9px] sm:text-[10px] tracking-[0.12em] uppercase transition-colors duration-300 max-w-[80px] sm:max-w-[100px] whitespace-normal break-words leading-tight
-            ${activeLeatherSub === sub.id ? 'text-antique-champagne font-medium' : 'text-white/40 group-hover:text-white'}`}
+          <span className={`font-nav-link text-[11px] sm:text-xs md:text-[13px] tracking-[0.15em] uppercase transition-colors duration-300 max-w-[120px] sm:max-w-[140px] md:max-w-[160px] whitespace-normal break-words leading-tight font-bold
+            ${activeLeatherSub === sub.id ? 'text-antique-champagne' : 'text-white/50 group-hover:text-white'}`}
           >
             {sub.name}
           </span>
@@ -549,6 +550,7 @@ export default function Home() {
     ))}
   </div>
 </div>
+
 
 
 <div className="grid grid-cols-3 lg:grid-cols-4 gap-[2px] md:gap-6 w-full">

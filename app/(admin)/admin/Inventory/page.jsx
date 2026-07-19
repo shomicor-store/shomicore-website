@@ -451,23 +451,24 @@ const handleCreateSubCategory = async (e) => {
                   />
                 </div>
 
-           {/* Narrative Description Block — Cleaned & Restructured */}
-<div className="flex flex-col gap-1 w-full">
-  <label className="font-label-caps text-[10px] tracking-widest text-white/40 uppercase">
+{/* Narrative Description Block — Cleaned & Restructured */}
+<div className="flex flex-col gap-1.5 w-full">
+  <label className="font-label-caps text-[10px] sm:text-[11px] tracking-[0.2em] text-white/50 uppercase font-semibold pl-0.5">
     Narrative Description
   </label>
   <textarea 
     required 
-    rows="3" 
+    rows="5" 
     value={formData.description} 
     onChange={(e) => setFormData({...formData, description: e.target.value})} 
-    className="bg-black/40 border border-white/10 p-3 text-[13px] text-white focus:outline-none focus:border-antique-champagne w-full resize-none font-body-lg" 
-    placeholder="Type craftsmanship details here..." 
+    className="w-full bg-neutral-950/60 border border-white/10 hover:border-white/20 focus:border-antique-champagne p-3.5 text-[13px] text-white/90 focus:outline-none rounded-none transition-all duration-300 font-body-lg whitespace-pre-wrap resize-y min-h-[120px] tracking-wide leading-relaxed" 
+    placeholder="Type craftsmanship details here...&#10;&#10;• Line breaks are preserved.&#10;• Indentations remain clean." 
   />
 </div>
 
 
-            {/* ── PARENT MATERIAL & DYNAMIC SUBCATEGORY WRAPPER MATRIX ── */}
+
+            {/* DYNAMIC SUBCATEGORY  ── */}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   
   {/* Column 1: Parent Group Selection */}
@@ -515,7 +516,7 @@ const handleCreateSubCategory = async (e) => {
           ))}
       </select>
     ) : (
-      /* 🚀 UPGRADED: Stacked Multi-Device Inline Subcategory Creator Panel */
+      /*  Subcategory Creator Panel */
       <div className="flex flex-col gap-2 border border-white/10 p-3 bg-black/20 animate-fadeIn w-full">
         <span className="font-label-caps text-[8px] text-antique-champagne/60 tracking-wider uppercase font-bold">
           New Category for: {formData.parentCategory}
@@ -529,7 +530,7 @@ const handleCreateSubCategory = async (e) => {
           className="w-full bg-black/40 border border-white/10 p-2.5 text-[12px] text-white focus:outline-none focus:border-antique-champagne uppercase font-mono" 
         />
 
-        {/* Dynamic Binary Media Stream Pipeline Loader */}
+        {/* Binary Media  */}
         <div className="relative border border-dashed border-white/10 hover:border-antique-champagne/30 bg-black/30 p-2 text-center h-10 flex items-center justify-center transition-colors">
           <input 
             type="file"
