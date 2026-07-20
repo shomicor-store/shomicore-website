@@ -6,8 +6,6 @@ export default function Footer() {
   return (
     <footer className="w-full bg-white border-t border-neutral-200 pt-16 pb-8 px-4 md:px-12 select-none text-black">
       <div className="max-w-7xl mx-auto flex flex-col gap-16">
-        
-        {/* BRAND STATEMENT ZONE - MINIMALIST HIGH-CONTRAST TYPE */}
         <div className="border-b border-black/10 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <h2 className="font-display-hero text-[13vw] sm:text-[85px] md:text-[105px] lg:text-[130px] leading-none tracking-[0.02em] uppercase text-black font-black select-none">
             SHOMICOR
@@ -16,11 +14,7 @@ export default function Footer() {
             CURATED CRAFTSMANSHIP / ARCHIVE 2026
           </span>
         </div>
-
-        {/* MAIN DESCRIPTIVE COLUMNS MATRIX */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 items-start">
-          
-          {/* THE BRAND PHILOSOPHY CONTAINER */}
           <div className="flex flex-col gap-4">
             <h3 className="font-label-caps text-[11px] tracking-[0.2em] text-black font-bold uppercase border-b border-black/5 pb-2">
               OUR MANIFESTO
@@ -29,8 +23,6 @@ export default function Footer() {
               An independent design house exploring architectural boundaries through curated craftsmanship, pure metals, and fine art pieces.
             </p>
           </div>
-
-          {/* THE PRODUCT CATEGORIES HUB */}
           <div className="flex flex-col gap-4">
             <h3 className="font-label-caps text-[11px] tracking-[0.2em] text-black font-bold uppercase border-b border-black/5 pb-2">
               THE ARCHIVE
@@ -50,8 +42,6 @@ export default function Footer() {
               </Link>
             </div>
           </div>
-
-          {/* DIGITAL CONCIERGE CHANNELS */}
           <div className="flex flex-col gap-4">
             <h3 className="font-label-caps text-[11px] tracking-[0.2em] text-black font-bold uppercase border-b border-black/5 pb-2">
               CONNECT WITH US
@@ -70,8 +60,6 @@ export default function Footer() {
               </p>
             </div>
           </div>
-
-          {/* LUXURY EDITORIAL SOCIAL MEDIA ENGINES */}
           <div className="flex flex-col gap-4">
             <h3 className="font-label-caps text-[11px] tracking-[0.2em] text-black font-bold uppercase border-b border-black/5 pb-2">
               SOCIAL MEDIAS
@@ -99,10 +87,7 @@ export default function Footer() {
           </div>
 
         </div>
-
-        {/* BOTTOM METRICS TRACKER & DEDICATED LOGO PLACEMENT MATRIX */}
         <div className="border-t border-black/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-          
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full md:w-auto">
             <div className="relative w-12 h-12 border border-black/10 bg-neutral-50 flex items-center justify-center overflow-hidden flex-shrink-0 rounded-sm">
               <Image 
@@ -113,16 +98,10 @@ export default function Footer() {
                 className="object-contain p-1.5"
               />
             </div>
-            
             <span className="font-label-caps text-[10px] tracking-[0.2em] text-black/50 uppercase font-medium">
               © 2026 SHOMICOR. ALL RIGHTS RESERVED.
             </span>
           </div>
-
-          {/* 
-            SEPARATE WATERMARK DESIGN SIGNATURE:
-            Isolated outside the copyright stack as an attractive minimalist design token.
-          */}
           <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-50 border border-neutral-200/60 rounded-sm mix-blend-multiply opacity-60 hover:opacity-100 transition-opacity duration-300">
             <span className="w-1 h-1 bg-black/30 rounded-full"></span>
             <span className="font-label-caps text-[9px] tracking-[0.25em] text-black/40 font-medium uppercase">
@@ -137,7 +116,6 @@ export default function Footer() {
               </a>
             </span>
           </div>
-
           <div className="flex gap-6">
             <Link href="/terms" className="font-label-caps text-[10px] tracking-[0.15em] text-black/40 hover:text-black uppercase font-medium relative group transition-colors duration-300">
               TERMS OF SERVICE
