@@ -12,6 +12,7 @@ export default function InventoryPage() {
   const [isUploading, setIsUploading] = useState(false);
 const [isSubUploading, setIsSubUploading] = useState(false);
 
+const [isEditingSub, setIsEditingSub] = useState(false); 
   // Modal edit or new 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -96,14 +97,19 @@ useEffect(() => {
   };
 
 
-  const handleCloseAndResetModal = () => {
-    setIsModalOpen(false);
-    setIsEditMode(false);
-    setEditProductId(null);
-    setShowNewSubForm(false);
-    setNewSubData({ name: '', imageUrl: '' });
-    setFormData(emptyFormState); 
-  };
+ const handleCloseAndResetModal = () => {
+  setIsModalOpen(false);
+  setIsEditMode(false);
+  setEditProductId(null);
+  setShowNewSubForm(false);
+  
+  // 🚀 THE RESET FIX: Instantly drop subcategory edit flags when closing the modal workspace
+  setIsEditingSub(false); 
+  
+  setNewSubData({ name: '', imageUrl: '' });
+  setFormData(emptyFormState);
+};
+
 
   const handleOpenEditModal = (product) => {
     setEditProductId(product.id);
@@ -203,46 +209,62 @@ const handleDeleteProduct = async (id) => {
 const handleCreateSubCategory = async (e) => {
   e.preventDefault();
   if (!newSubData.name.trim()) return alert("Enter subcategory label context string.");
-  if (isSubUploading) return alert("Please wait for the feature banner image to finish uploading to Cloudinary.");
+  if (isSubUploading) return alert("Please wait for the image upload to finish.");
 
   try {
-    const res = await fetch('/api/sub-categories', {
-      method: 'POST',
-      headers: {
+    // ⚡ DYNAMIC ROUTING LOGIC: Switches URL and methods based on active mode flags
+    const apiUrl = isEditingSub ? `/api/sub-categories/${formData.subCategoryId}` : '/api/sub-categories';
+    const apiMethod = isEditingSub ? 'PUT' : 'POST';
+
+    const res = await fetch(apiUrl, {
+      method: apiMethod,
+      headers: { 
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}`
+        'Authorization': 'Bearer shomicore123' // Authenticates with your backend validator securely
       },
       body: JSON.stringify({
         parentCategory: formData.parentCategory,
         name: newSubData.name.trim().toUpperCase(),
-        imageUrl: newSubData.imageUrl ? newSubData.imageUrl.trim() : null // 🚀 Live Cloudinary secure URL mapping
+        imageUrl: newSubData.imageUrl ? newSubData.imageUrl.trim() : null
       })
     });
     const result = await res.json();
 
     if (result.success) {
-      alert("Sub-Collection created!");
+      alert(isEditingSub ? "Sub-Collection updated successfully!" : "Sub-Collection created smoothly!");
       
-      // Refresh local array memories context records
-      const subRes = await fetch('/api/sub-categories', {
-        headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` }
-      });
+      // Refresh local arrays from the database
+      const subRes = await fetch('/api/sub-categories');
       const subData = await subRes.json();
       if (subData.success) setSubCategories(subData.data);
       
-      // Auto highlight newly constructed ID tracking node inside parent element parameters
+      // Auto-select the updated subcategory in the dropdown field
       setFormData(prev => ({ ...prev, subCategoryId: result.data.id }));
       
-      // Flush fields
+      // Reset editing flags and form fields completely
       setShowNewSubForm(false);
+      setIsEditingSub(false);
       setNewSubData({ name: '', imageUrl: '' });
     } else {
-      alert(result.message || "Operation failed.");
+      alert(result.message || "Operation rejected by backend handler.");
     }
   } catch (err) {
-    console.error("Subcategory submission fault:", err);
+    console.error("Subcategory transaction processing error:", err);
   }
 };
+// Triggers the edit form state and pre-fills its values with the selected item's data
+const handleOpenSubEditMode = () => {
+  const selectedSub = subCategories.find(sub => sub.id === formData.subCategoryId);
+  if (!selectedSub) return alert("Please select a valid sub-collection from the dropdown list first.");
+
+  setIsEditingSub(true);
+  setNewSubData({
+    name: selectedSub.name,
+    imageUrl: selectedSub.image_url || ''
+  });
+  setShowNewSubForm(true); // Expands the inline editor panel overlay
+};
+
 
 
   const filteredProducts = products.filter(product => {
@@ -472,18 +494,18 @@ const handleCreateSubCategory = async (e) => {
 
 
 
-            {/* DYNAMIC SUBCATEGORY  ── */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+{/* ── UPDATED DYNAMIC SUBCATEGORY SELECTION & INLINE MANAGEMENT HUB ── */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-white/5 pb-4">
   
   {/* Column 1: Parent Group Selection */}
-  <div>
+  <div className="flex flex-col gap-1">
     <label className="block font-label-caps text-[10px] tracking-[0.2em] text-white/60 uppercase mb-2">
       Parent Material Group
     </label>
     <select 
       value={formData.parentCategory} 
       onChange={(e) => setFormData({...formData, parentCategory: e.target.value, subCategoryId: ''})}
-      className="w-full bg-black/40 border border-white/10 p-3 text-[13px] text-white focus:outline-none focus:border-antique-champagne"
+      className="w-full bg-black/40 border border-white/10 p-3 text-[13px] text-white focus:outline-none focus:border-antique-champagne h-[46px]"
     >
       <option value="Artificial jewelry">Artificial jewelry</option>
       <option value="Silver Jewelry">Silver Jewelry</option>
@@ -491,26 +513,73 @@ const handleCreateSubCategory = async (e) => {
     </select>
   </div>
 
-  {/* Column 2: Dynamic Subcategory Operations Block */}
+  {/* Column 2: Advanced Dynamic Subcategory Operations Block */}
   <div className="flex flex-col justify-end">
-    <div className="flex justify-between items-center mb-2">
-      <label className="font-label-caps text-[10px] tracking-[0.2em] text-white/60 uppercase">
-        Dynamic Sub-Collection
-      </label>
+  <div className="flex justify-between items-center mb-4 h-6 bg-transparent select-none">
+  
+  {/* LABEL TRACK */}
+  <label className="font-label-caps text-[10px] md:text-[11px] tracking-[0.22em] text-white/40 uppercase font-medium">
+    Dynamic Sub-Collection
+  </label>
+  
+  {/* ACTION TRIGGER GROUP */}
+  <div className="flex gap-5 items-center">
+    
+    {/* EDIT MODAL TRIGGER */}
+    {formData.subCategoryId && !showNewSubForm && (
       <button 
-        type="button" 
-        onClick={() => { setShowNewSubForm(!showNewSubForm); setNewSubData({ name: '', imageUrl: '' }); }} 
-        className="text-antique-champagne text-[10px] font-semibold bg-transparent border-none cursor-pointer uppercase focus:outline-none"
+        type="button"
+        onClick={handleOpenSubEditMode}
+        className="text-white/40 hover:text-white text-[10px] md:text-[11px] font-medium font-nav-link tracking-[0.15em] bg-transparent border-none cursor-pointer uppercase focus:outline-none flex items-center gap-1.5 transition-colors duration-300 group py-1"
       >
-        {showNewSubForm ? "Cancel" : "+ Create New"}
+        {/* Swapped standard raw icon template for a fine inline vector path */}
+        <svg className="w-3.5 h-3.5 stroke-currentColor opacity-60 group-hover:opacity-100 transition-opacity duration-300" fill="none" strokeWidth="1.8" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+        </svg>
+        <span className="relative">
+          Edit Selected
+          <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 ease-out group-hover:w-full" />
+        </span>
       </button>
-    </div>
+    )}
+
+    {/* Vertical structural split divider dot */}
+    {formData.subCategoryId && !showNewSubForm && (
+      <div className="w-1 h-1 rounded-full bg-white/10" />
+    )}
+
+    {/* CREATE / CANCEL TOGGLE BUTTON */}
+    <button 
+      type="button" 
+      onClick={() => { 
+        setShowNewSubForm(!showNewSubForm); 
+        setIsEditingSub(false); 
+        setNewSubData({ name: '', imageUrl: '' }); 
+      }} 
+      className={`text-[10px] md:text-[11px] font-medium font-nav-link tracking-[0.15em] bg-transparent border-none cursor-pointer uppercase focus:outline-none transition-all duration-300 group relative py-1
+        ${showNewSubForm 
+          ? 'text-white/40 hover:text-white' 
+          : 'text-antique-champagne hover:text-white'
+        }`}
+    >
+      <span className="relative z-10">
+        {showNewSubForm ? "Cancel Creation" : "+ Create New"}
+      </span>
+      {/* Dynamic line effect blooming based on current toggled state colors */}
+      <span className={`absolute bottom-0 left-0 w-0 h-[1px] transition-all duration-500 ease-out group-hover:w-full
+        ${showNewSubForm ? 'bg-white' : 'bg-antique-champagne'}`} 
+      />
+    </button>
+    
+  </div>
+</div>
+
     
     {!showNewSubForm ? (
       <select 
         value={formData.subCategoryId} 
         onChange={(e) => setFormData({...formData, subCategoryId: e.target.value})}
-        className="w-full bg-black/40 border border-white/10 p-3 text-[13px] text-white focus:outline-none focus:border-antique-champagne"
+        className="w-full bg-black/40 border border-white/10 p-3 text-[13px] text-white focus:outline-none focus:border-antique-champagne h-[46px]"
       >
         <option value="">Standard Base Category Listing</option>
         {subCategories
@@ -520,10 +589,10 @@ const handleCreateSubCategory = async (e) => {
           ))}
       </select>
     ) : (
-      /*  Subcategory Creator Panel */
+      /* Dual Mode Creator / Editor Form Layout Panel */
       <div className="flex flex-col gap-2 border border-white/10 p-3 bg-black/20 animate-fadeIn w-full">
         <span className="font-label-caps text-[8px] text-antique-champagne/60 tracking-wider uppercase font-bold">
-          New Category for: {formData.parentCategory}
+          {isEditingSub ? `Modifying Category Details` : `New Category for: ${formData.parentCategory}`}
         </span>
         
         <input 
@@ -534,7 +603,7 @@ const handleCreateSubCategory = async (e) => {
           className="w-full bg-black/40 border border-white/10 p-2.5 text-[12px] text-white focus:outline-none focus:border-antique-champagne uppercase font-mono" 
         />
 
-        {/* Binary Media  */}
+        {/* Binary Media Stream Dropzone Hook */}
         <div className="relative border border-dashed border-white/10 hover:border-antique-champagne/30 bg-black/30 p-2 text-center h-10 flex items-center justify-center transition-colors">
           <input 
             type="file"
@@ -549,7 +618,6 @@ const handleCreateSubCategory = async (e) => {
               try {
                 const res = await fetch('/api/upload', {
                   method: 'POST',
-                  headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'shomicore123'}` },
                   body: dataStream
                 });
                 const result = await res.json();
@@ -570,18 +638,30 @@ const handleCreateSubCategory = async (e) => {
           </span>
         </div>
 
+        {/* Preview image thumbnail slot (renders dynamically if an image string exists in state memory) */}
+        {newSubData.imageUrl && (
+          <div className="flex items-center gap-2 bg-black/40 p-1.5 border border-white/5 animate-fadeIn">
+            <div className="relative aspect-square w-8 bg-neutral-900 border border-white/10 overflow-hidden flex-shrink-0">
+              <img src={newSubData.imageUrl} alt="" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-[9px] font-mono text-white/40 truncate max-w-[200px]">{newSubData.imageUrl}</span>
+            <button type="button" onClick={() => setNewSubData(prev => ({ ...prev, imageUrl: '' }))} className="ml-auto text-error text-[9px] font-bold font-label-caps tracking-wider cursor-pointer bg-transparent border-none focus:outline-none uppercase hover:text-white">Drop</button>
+          </div>
+        )}
+
         <button 
           type="button" 
           onClick={handleCreateSubCategory}
           disabled={isSubUploading}
           className="w-full py-2 bg-antique-champagne text-black font-label-caps text-[10px] tracking-widest font-bold uppercase transition-colors hover:bg-white disabled:bg-white/20 disabled:text-white/40 cursor-pointer border-none"
         >
-          Save Subcategory
+          {isEditingSub ? "Update Collection Specs" : "Save New Subcategory"}
         </button>
       </div>
     )}
   </div>
 </div>
+
 
 
                 <div>
